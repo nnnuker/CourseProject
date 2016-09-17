@@ -37,7 +37,7 @@ namespace ProjectAlgorithm
             return new Entity(faces);
         }
 
-        private IList<Point> GetApproximatedCircle(float z, int n, float r, float deltaX, float deltaY, float deltaZ)
+        private IList<Point> GetApproximatedCircle(float h, int n, float r, float deltaX, float deltaY, float deltaZ)
         {
             var alpha = 360.0 / n;
             var grad = 0.0;
@@ -45,9 +45,9 @@ namespace ProjectAlgorithm
 
             for (int i = 0; i < n; i++)
             {
-                var y = (int)Math.Round(r * Math.Sin(grad * Math.PI / 180));
+                var z = (int)Math.Round(r * Math.Sin(grad * Math.PI / 180));
                 var x = (int)Math.Round(r * Math.Cos(grad * Math.PI / 180));
-                points.Add(new Point(x + deltaX, y + deltaY, z + deltaZ));
+                points.Add(new Point(x + deltaX, h + deltaY, z + deltaZ));
                 grad += alpha;
             }
 

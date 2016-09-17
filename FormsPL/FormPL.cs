@@ -38,7 +38,7 @@ namespace FormsPL
 
             foreach (var line in compositeObject.GetLines())
             {
-                graphics.DrawLine(pen, line.First.X + deltaX, line.First.Y + deltaY, line.Second.X + deltaX, line.Second.Y + deltaY);
+                graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Y + deltaY, line.Second.X + deltaX, -line.Second.Y + deltaY);
             }
         }
 
