@@ -9,7 +9,8 @@ namespace ProjectAlgorithm.Entities
     {
         private readonly IList<ILine> lines;
 
-        public IList<ILine> Lines => lines;
+        public IList<ILine> Lines { get { return lines; } }
+
 
         public Face(IEnumerable<ILine> lines)
         {
@@ -18,7 +19,7 @@ namespace ProjectAlgorithm.Entities
 
         public object Clone()
         {
-            return new Face((IList<ILine>)lines.Select(l => l.Clone()));
+            return new Face(lines.Select(l => (ILine)l.Clone()));
         }
     }
 }

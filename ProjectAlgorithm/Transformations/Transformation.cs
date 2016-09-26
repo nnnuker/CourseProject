@@ -62,6 +62,57 @@ namespace ProjectAlgorithm.Transformations
             return Transform(compositeObject, moveMatrix);
         }
 
+        public ICompositeObject Proection(ICompositeObject compositeObject, float psi, float fi)
+        {
+            var anglePsi = (psi * (Math.PI / 180.0));
+            var angleFi = (fi * (Math.PI / 180.0));
+
+            var proection = DenseMatrix.OfArray(new[,] {
+                                                    { (float)Math.Cos(anglePsi), (float)Math.Sin(anglePsi)*(float)Math.Sin(angleFi), 0, 0},
+                                                    { 0, (float)Math.Cos(angleFi), 0, 0},
+                                                    { (float)Math.Sin(anglePsi), -(float)Math.Sin(angleFi)*(float)Math.Cos(anglePsi), 0, 0},
+                                                    { 0, 0, 0, 1 }
+            });
+
+            return Transform(compositeObject, proection);
+        }
+
+        public ICompositeObject ProectionZ(ICompositeObject compositeObject)
+        {
+            var proection = DenseMatrix.OfArray(new[,] {
+                                                    { 1.0f, 0, 0, 0},
+                                                    { 0, 1.0f, 0, 0},
+                                                    { 0, 0, 0, 0},
+                                                    { 0, 0, 0, 1.0f }
+            });
+
+            return Transform(compositeObject, proection);
+        }
+
+        public ICompositeObject ProectionX(ICompositeObject compositeObject)
+        {
+            var proection = DenseMatrix.OfArray(new[,] {
+                                                    { 0, 0, 0, 0},
+                                                    { 0, 1, 0, 0},
+                                                    { 0, 0, 1, 0},
+                                                    { 0, 0, 0, 1.0f }
+            });
+
+            return Transform(compositeObject, proection);
+        }
+
+        public ICompositeObject ProectionY(ICompositeObject compositeObject)
+        {
+            var proection = DenseMatrix.OfArray(new[,] {
+                                                    { 1, 0, 0, 0},
+                                                    { 0, 0, 0, 0},
+                                                    { 0, 0, 1, 0},
+                                                    { 0, 0, 0, 1.0f }
+            });
+
+            return Transform(compositeObject, proection);
+        }
+
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
         {
             var lines = compositeObject.GetLines();
@@ -75,7 +126,7 @@ namespace ProjectAlgorithm.Transformations
 
         private Vector<float> Vector(IPoint point)
         {
-            if (point == null) throw new ArgumentNullException(nameof(point));
+            if (point == null) throw new ArgumentNullException("point");
 
             return Vector<float>.Build.DenseOfArray(new[] { point.X, point.Y, point.Z, 1 });
         }

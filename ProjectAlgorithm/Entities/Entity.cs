@@ -9,7 +9,7 @@ namespace ProjectAlgorithm.Entities
     {
         private readonly IList<IFace> faces;
 
-        public IList<IFace> Faces => faces;
+        public IList<IFace> Faces { get { return faces; } }
 
         public Entity(IEnumerable<IFace> faces)
         {
@@ -18,7 +18,7 @@ namespace ProjectAlgorithm.Entities
 
         public object Clone()
         {
-            return new Entity((IEnumerable<IFace>)faces.Select(f => f.Clone()));
+            return new Entity(faces.Select(f => (IFace)f.Clone()));
         }
     }
 }

@@ -5,11 +5,19 @@ using ProjectAlgorithm.Interfaces;
 
 namespace ProjectAlgorithm.Entities
 {
-    public class CompositeObject : ICompositeObject
+    public class CompositeObject : ICompositeObject, ICompositeChangeable
     {
         private readonly IList<IEntity> entities;
 
-        public IList<IEntity> Entities => entities;
+        public event EventHandler<UpdateObjectEventArgs> OnChange = delegate { };
+
+        public IList<IEntity> Entities
+        {
+            get
+            {
+                return entities;
+            }
+        }
 
         public CompositeObject(IEnumerable<IEntity> entities)
         {
@@ -28,12 +36,25 @@ namespace ProjectAlgorithm.Entities
                 }
             }
 
-            return lines;
+            var distLines = lines.Distinct().ToList();
+
+            OnChangeMethod(new UpdateObjectEventArgs(distLines));
+
+            return distLines;
+        }
+
+        protected virtual void OnChangeMethod(UpdateObjectEventArgs eventArgs)
+        {
+            if (eventArgs == null) throw new ArgumentNullException(nameof(eventArgs));
+
+            OnChange(this, eventArgs);
         }
 
         public object Clone()
         {
-            return new CompositeObject((IEnumerable<IEntity>)entities.Select(e => e.Clone()));
+            return new CompositeObject(entities.Select(e => (IEntity)e.Clone()));
         }
+
+        
     }
 }
