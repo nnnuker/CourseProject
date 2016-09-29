@@ -74,6 +74,18 @@
             this.zButton = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
+            this.obliqueButton = new System.Windows.Forms.Button();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label22 = new System.Windows.Forms.Label();
+            this.distance = new System.Windows.Forms.NumericUpDown();
+            this.centralButton = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lengthOblique = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.angleAlpha = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -93,12 +105,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.height2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.anglePsi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleFi)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.distance)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).BeginInit();
             this.SuspendLayout();
             // 
             // moveButton
             // 
             this.moveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.moveButton.Location = new System.Drawing.Point(770, 256);
+            this.moveButton.Location = new System.Drawing.Point(53, 7);
             this.moveButton.Name = "moveButton";
             this.moveButton.Size = new System.Drawing.Size(75, 23);
             this.moveButton.TabIndex = 0;
@@ -109,7 +128,7 @@
             // drawButton
             // 
             this.drawButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.drawButton.Location = new System.Drawing.Point(770, 12);
+            this.drawButton.Location = new System.Drawing.Point(54, 6);
             this.drawButton.Name = "drawButton";
             this.drawButton.Size = new System.Drawing.Size(75, 23);
             this.drawButton.TabIndex = 1;
@@ -120,7 +139,7 @@
             // rotateButton
             // 
             this.rotateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rotateButton.Location = new System.Drawing.Point(770, 366);
+            this.rotateButton.Location = new System.Drawing.Point(53, 117);
             this.rotateButton.Name = "rotateButton";
             this.rotateButton.Size = new System.Drawing.Size(75, 23);
             this.rotateButton.TabIndex = 2;
@@ -131,7 +150,7 @@
             // scaleButton
             // 
             this.scaleButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.scaleButton.Location = new System.Drawing.Point(770, 478);
+            this.scaleButton.Location = new System.Drawing.Point(53, 229);
             this.scaleButton.Name = "scaleButton";
             this.scaleButton.Size = new System.Drawing.Size(75, 23);
             this.scaleButton.TabIndex = 3;
@@ -142,7 +161,7 @@
             // height
             // 
             this.height.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.height.Location = new System.Drawing.Point(770, 41);
+            this.height.Location = new System.Drawing.Point(55, 35);
             this.height.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -161,7 +180,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(751, 41);
+            this.label1.Location = new System.Drawing.Point(36, 35);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(13, 13);
             this.label1.TabIndex = 5;
@@ -170,7 +189,7 @@
             // radius
             // 
             this.radius.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radius.Location = new System.Drawing.Point(770, 93);
+            this.radius.Location = new System.Drawing.Point(55, 87);
             this.radius.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -189,7 +208,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(751, 93);
+            this.label2.Location = new System.Drawing.Point(36, 87);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 13);
             this.label2.TabIndex = 7;
@@ -198,7 +217,7 @@
             // radiusTop
             // 
             this.radiusTop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radiusTop.Location = new System.Drawing.Point(770, 120);
+            this.radiusTop.Location = new System.Drawing.Point(55, 114);
             this.radiusTop.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -217,7 +236,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(732, 120);
+            this.label3.Location = new System.Drawing.Point(17, 114);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(34, 13);
             this.label3.TabIndex = 9;
@@ -226,7 +245,7 @@
             // number
             // 
             this.number.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.number.Location = new System.Drawing.Point(770, 204);
+            this.number.Location = new System.Drawing.Point(55, 198);
             this.number.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -245,7 +264,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(751, 204);
+            this.label4.Location = new System.Drawing.Point(36, 198);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(13, 13);
             this.label4.TabIndex = 11;
@@ -254,7 +273,7 @@
             // moveX
             // 
             this.moveX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.moveX.Location = new System.Drawing.Point(770, 286);
+            this.moveX.Location = new System.Drawing.Point(53, 37);
             this.moveX.Maximum = new decimal(new int[] {
             500,
             0,
@@ -273,7 +292,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(752, 286);
+            this.label5.Location = new System.Drawing.Point(35, 37);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(12, 13);
             this.label5.TabIndex = 13;
@@ -282,7 +301,7 @@
             // moveY
             // 
             this.moveY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.moveY.Location = new System.Drawing.Point(770, 313);
+            this.moveY.Location = new System.Drawing.Point(53, 64);
             this.moveY.Maximum = new decimal(new int[] {
             500,
             0,
@@ -301,7 +320,7 @@
             // 
             this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(752, 313);
+            this.label6.Location = new System.Drawing.Point(35, 64);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(12, 13);
             this.label6.TabIndex = 15;
@@ -310,7 +329,7 @@
             // moveZ
             // 
             this.moveZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.moveZ.Location = new System.Drawing.Point(770, 340);
+            this.moveZ.Location = new System.Drawing.Point(53, 91);
             this.moveZ.Maximum = new decimal(new int[] {
             500,
             0,
@@ -329,7 +348,7 @@
             // 
             this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(752, 340);
+            this.label7.Location = new System.Drawing.Point(35, 91);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(12, 13);
             this.label7.TabIndex = 17;
@@ -338,7 +357,7 @@
             // rotateX
             // 
             this.rotateX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rotateX.Location = new System.Drawing.Point(770, 396);
+            this.rotateX.Location = new System.Drawing.Point(53, 147);
             this.rotateX.Maximum = new decimal(new int[] {
             360,
             0,
@@ -356,7 +375,7 @@
             // rotateY
             // 
             this.rotateY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rotateY.Location = new System.Drawing.Point(770, 423);
+            this.rotateY.Location = new System.Drawing.Point(53, 174);
             this.rotateY.Maximum = new decimal(new int[] {
             360,
             0,
@@ -374,7 +393,7 @@
             // rotateZ
             // 
             this.rotateZ.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rotateZ.Location = new System.Drawing.Point(770, 450);
+            this.rotateZ.Location = new System.Drawing.Point(53, 201);
             this.rotateZ.Maximum = new decimal(new int[] {
             360,
             0,
@@ -393,7 +412,7 @@
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(752, 396);
+            this.label8.Location = new System.Drawing.Point(35, 147);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(12, 13);
             this.label8.TabIndex = 21;
@@ -403,7 +422,7 @@
             // 
             this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(752, 423);
+            this.label9.Location = new System.Drawing.Point(35, 174);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(12, 13);
             this.label9.TabIndex = 22;
@@ -413,7 +432,7 @@
             // 
             this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(752, 450);
+            this.label10.Location = new System.Drawing.Point(35, 201);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(12, 13);
             this.label10.TabIndex = 23;
@@ -428,7 +447,7 @@
             0,
             0,
             65536});
-            this.scaleX.Location = new System.Drawing.Point(770, 508);
+            this.scaleX.Location = new System.Drawing.Point(53, 259);
             this.scaleX.Maximum = new decimal(new int[] {
             10,
             0,
@@ -452,7 +471,7 @@
             0,
             0,
             65536});
-            this.scaleY.Location = new System.Drawing.Point(770, 535);
+            this.scaleY.Location = new System.Drawing.Point(53, 286);
             this.scaleY.Maximum = new decimal(new int[] {
             10,
             0,
@@ -476,7 +495,7 @@
             0,
             0,
             65536});
-            this.scaleZ.Location = new System.Drawing.Point(770, 562);
+            this.scaleZ.Location = new System.Drawing.Point(53, 313);
             this.scaleZ.Maximum = new decimal(new int[] {
             10,
             0,
@@ -495,7 +514,7 @@
             // 
             this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(752, 508);
+            this.label11.Location = new System.Drawing.Point(35, 259);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(12, 13);
             this.label11.TabIndex = 27;
@@ -505,7 +524,7 @@
             // 
             this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(752, 535);
+            this.label12.Location = new System.Drawing.Point(35, 286);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(12, 13);
             this.label12.TabIndex = 28;
@@ -515,7 +534,7 @@
             // 
             this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(752, 562);
+            this.label13.Location = new System.Drawing.Point(35, 313);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(12, 13);
             this.label13.TabIndex = 29;
@@ -524,7 +543,7 @@
             // number2
             // 
             this.number2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.number2.Location = new System.Drawing.Point(770, 230);
+            this.number2.Location = new System.Drawing.Point(55, 224);
             this.number2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -543,7 +562,7 @@
             // 
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(745, 230);
+            this.label14.Location = new System.Drawing.Point(30, 224);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(19, 13);
             this.label14.TabIndex = 31;
@@ -552,7 +571,7 @@
             // radius2
             // 
             this.radius2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radius2.Location = new System.Drawing.Point(770, 147);
+            this.radius2.Location = new System.Drawing.Point(55, 141);
             this.radius2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -570,7 +589,7 @@
             // radius2Top
             // 
             this.radius2Top.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.radius2Top.Location = new System.Drawing.Point(770, 174);
+            this.radius2Top.Location = new System.Drawing.Point(55, 168);
             this.radius2Top.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -589,7 +608,7 @@
             // 
             this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(743, 147);
+            this.label15.Location = new System.Drawing.Point(28, 141);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(21, 13);
             this.label15.TabIndex = 34;
@@ -599,7 +618,7 @@
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(724, 174);
+            this.label16.Location = new System.Drawing.Point(9, 168);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(40, 13);
             this.label16.TabIndex = 35;
@@ -608,7 +627,7 @@
             // height2
             // 
             this.height2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.height2.Location = new System.Drawing.Point(770, 68);
+            this.height2.Location = new System.Drawing.Point(55, 62);
             this.height2.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -627,7 +646,7 @@
             // 
             this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(748, 68);
+            this.label17.Location = new System.Drawing.Point(33, 62);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(19, 13);
             this.label17.TabIndex = 37;
@@ -636,18 +655,18 @@
             // proectionButton
             // 
             this.proectionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.proectionButton.Location = new System.Drawing.Point(769, 588);
+            this.proectionButton.Location = new System.Drawing.Point(57, 3);
             this.proectionButton.Name = "proectionButton";
             this.proectionButton.Size = new System.Drawing.Size(75, 23);
             this.proectionButton.TabIndex = 38;
-            this.proectionButton.Text = "Proection";
+            this.proectionButton.Text = "Acsonom";
             this.proectionButton.UseVisualStyleBackColor = true;
-            this.proectionButton.Click += new System.EventHandler(this.proectionButton_Click);
+            this.proectionButton.Click += new System.EventHandler(this.projectionButton_Click);
             // 
             // anglePsi
             // 
             this.anglePsi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.anglePsi.Location = new System.Drawing.Point(769, 618);
+            this.anglePsi.Location = new System.Drawing.Point(57, 33);
             this.anglePsi.Maximum = new decimal(new int[] {
             360,
             0,
@@ -665,7 +684,7 @@
             // angleFi
             // 
             this.angleFi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.angleFi.Location = new System.Drawing.Point(769, 644);
+            this.angleFi.Location = new System.Drawing.Point(57, 59);
             this.angleFi.Maximum = new decimal(new int[] {
             360,
             0,
@@ -683,33 +702,33 @@
             // xButton
             // 
             this.xButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.xButton.Location = new System.Drawing.Point(769, 671);
+            this.xButton.Location = new System.Drawing.Point(57, 86);
             this.xButton.Name = "xButton";
             this.xButton.Size = new System.Drawing.Size(75, 23);
             this.xButton.TabIndex = 41;
-            this.xButton.Text = "Проф";
+            this.xButton.Text = "Profile";
             this.xButton.UseVisualStyleBackColor = true;
             this.xButton.Click += new System.EventHandler(this.xButton_Click);
             // 
             // yButton
             // 
             this.yButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.yButton.Location = new System.Drawing.Point(769, 701);
+            this.yButton.Location = new System.Drawing.Point(57, 116);
             this.yButton.Name = "yButton";
             this.yButton.Size = new System.Drawing.Size(75, 23);
             this.yButton.TabIndex = 42;
-            this.yButton.Text = "Гориз";
+            this.yButton.Text = "Horizontal";
             this.yButton.UseVisualStyleBackColor = true;
             this.yButton.Click += new System.EventHandler(this.yButton_Click);
             // 
             // zButton
             // 
             this.zButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.zButton.Location = new System.Drawing.Point(770, 731);
+            this.zButton.Location = new System.Drawing.Point(56, 146);
             this.zButton.Name = "zButton";
             this.zButton.Size = new System.Drawing.Size(75, 23);
             this.zButton.TabIndex = 43;
-            this.zButton.Text = "Фронт";
+            this.zButton.Text = "Front";
             this.zButton.UseVisualStyleBackColor = true;
             this.zButton.Click += new System.EventHandler(this.zButton_Click);
             // 
@@ -717,74 +736,228 @@
             // 
             this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(726, 620);
+            this.label18.Location = new System.Drawing.Point(36, 35);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(27, 13);
+            this.label18.Size = new System.Drawing.Size(15, 13);
             this.label18.TabIndex = 44;
-            this.label18.Text = "Пси";
+            this.label18.Text = "ψ";
             // 
             // label19
             // 
             this.label19.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(727, 644);
+            this.label19.Location = new System.Drawing.Point(37, 59);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(24, 13);
+            this.label19.Size = new System.Drawing.Size(15, 13);
             this.label19.TabIndex = 45;
-            this.label19.Text = "Фи";
+            this.label19.Text = "φ";
+            // 
+            // obliqueButton
+            // 
+            this.obliqueButton.Location = new System.Drawing.Point(56, 175);
+            this.obliqueButton.Name = "obliqueButton";
+            this.obliqueButton.Size = new System.Drawing.Size(75, 23);
+            this.obliqueButton.TabIndex = 46;
+            this.obliqueButton.Text = "Oblique";
+            this.obliqueButton.UseVisualStyleBackColor = true;
+            this.obliqueButton.Click += new System.EventHandler(this.obliqueButton_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(696, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(142, 369);
+            this.tabControl1.TabIndex = 47;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.radius2);
+            this.tabPage1.Controls.Add(this.drawButton);
+            this.tabPage1.Controls.Add(this.height);
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.radius);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.radiusTop);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.number);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label17);
+            this.tabPage1.Controls.Add(this.number2);
+            this.tabPage1.Controls.Add(this.height2);
+            this.tabPage1.Controls.Add(this.label14);
+            this.tabPage1.Controls.Add(this.label16);
+            this.tabPage1.Controls.Add(this.radius2Top);
+            this.tabPage1.Controls.Add(this.label15);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(134, 343);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Drawing";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.scaleButton);
+            this.tabPage2.Controls.Add(this.moveButton);
+            this.tabPage2.Controls.Add(this.rotateButton);
+            this.tabPage2.Controls.Add(this.moveX);
+            this.tabPage2.Controls.Add(this.label5);
+            this.tabPage2.Controls.Add(this.moveY);
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.moveZ);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.rotateX);
+            this.tabPage2.Controls.Add(this.label13);
+            this.tabPage2.Controls.Add(this.rotateY);
+            this.tabPage2.Controls.Add(this.label12);
+            this.tabPage2.Controls.Add(this.rotateZ);
+            this.tabPage2.Controls.Add(this.label11);
+            this.tabPage2.Controls.Add(this.label8);
+            this.tabPage2.Controls.Add(this.scaleZ);
+            this.tabPage2.Controls.Add(this.label9);
+            this.tabPage2.Controls.Add(this.scaleY);
+            this.tabPage2.Controls.Add(this.label10);
+            this.tabPage2.Controls.Add(this.scaleX);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(134, 343);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Transformations";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.label22);
+            this.tabPage3.Controls.Add(this.distance);
+            this.tabPage3.Controls.Add(this.centralButton);
+            this.tabPage3.Controls.Add(this.label21);
+            this.tabPage3.Controls.Add(this.lengthOblique);
+            this.tabPage3.Controls.Add(this.label20);
+            this.tabPage3.Controls.Add(this.angleAlpha);
+            this.tabPage3.Controls.Add(this.obliqueButton);
+            this.tabPage3.Controls.Add(this.proectionButton);
+            this.tabPage3.Controls.Add(this.label19);
+            this.tabPage3.Controls.Add(this.anglePsi);
+            this.tabPage3.Controls.Add(this.label18);
+            this.tabPage3.Controls.Add(this.angleFi);
+            this.tabPage3.Controls.Add(this.zButton);
+            this.tabPage3.Controls.Add(this.xButton);
+            this.tabPage3.Controls.Add(this.yButton);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(134, 343);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Projections";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(36, 290);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(13, 13);
+            this.label22.TabIndex = 53;
+            this.label22.Text = "d";
+            // 
+            // distance
+            // 
+            this.distance.DecimalPlaces = 2;
+            this.distance.Location = new System.Drawing.Point(56, 288);
+            this.distance.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.distance.Minimum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            -2147483648});
+            this.distance.Name = "distance";
+            this.distance.Size = new System.Drawing.Size(75, 20);
+            this.distance.TabIndex = 52;
+            // 
+            // centralButton
+            // 
+            this.centralButton.Location = new System.Drawing.Point(56, 258);
+            this.centralButton.Name = "centralButton";
+            this.centralButton.Size = new System.Drawing.Size(75, 23);
+            this.centralButton.TabIndex = 51;
+            this.centralButton.Text = "Central";
+            this.centralButton.UseVisualStyleBackColor = true;
+            this.centralButton.Click += new System.EventHandler(this.centralButton_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(36, 234);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(13, 13);
+            this.label21.TabIndex = 50;
+            this.label21.Text = "L";
+            // 
+            // lengthOblique
+            // 
+            this.lengthOblique.Location = new System.Drawing.Point(57, 232);
+            this.lengthOblique.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
+            this.lengthOblique.Name = "lengthOblique";
+            this.lengthOblique.Size = new System.Drawing.Size(75, 20);
+            this.lengthOblique.TabIndex = 49;
+            this.lengthOblique.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(36, 205);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(14, 13);
+            this.label20.TabIndex = 48;
+            this.label20.Text = "α";
+            // 
+            // angleAlpha
+            // 
+            this.angleAlpha.Location = new System.Drawing.Point(58, 205);
+            this.angleAlpha.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.angleAlpha.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
+            this.angleAlpha.Name = "angleAlpha";
+            this.angleAlpha.Size = new System.Drawing.Size(74, 20);
+            this.angleAlpha.TabIndex = 47;
+            this.angleAlpha.Value = new decimal(new int[] {
+            45,
+            0,
+            0,
+            0});
             // 
             // FormPL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(857, 775);
-            this.Controls.Add(this.label19);
-            this.Controls.Add(this.label18);
-            this.Controls.Add(this.zButton);
-            this.Controls.Add(this.yButton);
-            this.Controls.Add(this.xButton);
-            this.Controls.Add(this.angleFi);
-            this.Controls.Add(this.anglePsi);
-            this.Controls.Add(this.proectionButton);
-            this.Controls.Add(this.label17);
-            this.Controls.Add(this.height2);
-            this.Controls.Add(this.label16);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.radius2Top);
-            this.Controls.Add(this.radius2);
-            this.Controls.Add(this.label14);
-            this.Controls.Add(this.number2);
-            this.Controls.Add(this.label13);
-            this.Controls.Add(this.label12);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.scaleZ);
-            this.Controls.Add(this.scaleY);
-            this.Controls.Add(this.scaleX);
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.rotateZ);
-            this.Controls.Add(this.rotateY);
-            this.Controls.Add(this.rotateX);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.moveZ);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.moveY);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.moveX);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.number);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.radiusTop);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.radius);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.height);
-            this.Controls.Add(this.scaleButton);
-            this.Controls.Add(this.rotateButton);
-            this.Controls.Add(this.drawButton);
-            this.Controls.Add(this.moveButton);
+            this.ClientSize = new System.Drawing.Size(850, 545);
+            this.Controls.Add(this.tabControl1);
             this.Name = "FormPL";
             this.Text = "Form";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FormPL_MouseDown);
@@ -809,8 +982,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.height2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.anglePsi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleFi)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.distance)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -862,6 +1044,18 @@
         private System.Windows.Forms.Button zButton;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Button obliqueButton;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.NumericUpDown angleAlpha;
+        private System.Windows.Forms.NumericUpDown lengthOblique;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.NumericUpDown distance;
+        private System.Windows.Forms.Button centralButton;
     }
 }
 
