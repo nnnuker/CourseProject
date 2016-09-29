@@ -20,7 +20,7 @@ namespace ProjectAlgorithm
 
         public UpdateObjectEventArgs(IEnumerable<ILine> lines)
         {
-            if (lines == null) throw new ArgumentNullException(nameof(lines));
+            if (lines == null) throw new ArgumentNullException("lines");
 
             this.lines = lines as IList<ILine> ?? new List<ILine>();
         }

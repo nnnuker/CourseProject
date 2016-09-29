@@ -45,7 +45,7 @@ namespace ProjectAlgorithm.Entities
 
         protected virtual void OnChangeMethod(UpdateObjectEventArgs eventArgs)
         {
-            if (eventArgs == null) throw new ArgumentNullException(nameof(eventArgs));
+            if (eventArgs == null) throw new ArgumentNullException("eventArgs");
 
             OnChange(this, eventArgs);
         }
