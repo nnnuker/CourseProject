@@ -12,16 +12,21 @@ namespace ProjectAlgorithm
             return CreateEntity(h, radius, radius, n, 0, 0, 0, 0, 0, 0);
         }
 
-        public Entity CreateEntity(float h, float radius, float rariusTop, int n)
+        public Entity CreateEntity(float h, float radius, float radiusTop, int n)
         {
-            return CreateEntity(h, radius, rariusTop, n, 0, 0, 0, 0, 0, 0);
+            return CreateEntity(h, radius, radiusTop, n, 0, 0, 0, 0, 0, 0);
         }
 
-        public Entity CreateEntity(float h, float radius, float rariusTop, int n,
+        public Entity CreateEntity(float h, float radius, float radiusTop, int n,
             float deltaX, float deltaY, float deltaZ, float deltaXTop, float deltaYTop, float deltaZTop)
         {
+            if (h == 0 || (radius == 0 && radiusTop == 0))
+            {
+                return new Entity();
+            }
+
             var bottomPoints = GetApproximatedCircle(0, n, radius, deltaX, deltaY, deltaZ);
-            var topPoints = GetApproximatedCircle(h, n, rariusTop, deltaXTop, deltaYTop, deltaZTop);
+            var topPoints = GetApproximatedCircle(h, n, radiusTop, deltaXTop, deltaYTop, deltaZTop);
 
             var verticalLines = GetLines(bottomPoints, topPoints);
             var bottomLines = GetLines(bottomPoints);

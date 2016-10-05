@@ -8,6 +8,7 @@ namespace ProjectAlgorithm.Entities
     public class CompositeObject : ICompositeObject, ICompositeChangeable
     {
         private readonly IList<IEntity> entities;
+        private List<ILine> lines;
 
         public event EventHandler<UpdateObjectEventArgs> OnChange = delegate { };
 
@@ -19,33 +20,45 @@ namespace ProjectAlgorithm.Entities
             }
         }
 
+        public CompositeObject()
+        {
+            entities = new List<IEntity>();
+            lines = new List<ILine>();
+        }
+
         public CompositeObject(IEnumerable<IEntity> entities)
         {
             this.entities = entities as IList<IEntity> ?? entities.ToList();
+            lines = new List<ILine>();
         }
 
         public IList<ILine> GetLines()
         {
-            var lines = new List<ILine>();
+            if (this.lines.Count != 0)
+            {
+                return this.lines;
+            }
+
+            this.lines.Clear();
 
             foreach (var entity in entities)
             {
                 foreach (var face in entity.Faces)
                 {
-                    lines.AddRange(face.Lines);
+                    this.lines.AddRange(face.Lines);
                 }
             }
 
-            var distLines = lines.Distinct().ToList();
+            lines = lines.Distinct().ToList();
 
-            OnChangeMethod(new UpdateObjectEventArgs(distLines));
+            OnChangeMethod(new UpdateObjectEventArgs(lines));
 
-            return distLines;
+            return lines;
         }
 
         protected virtual void OnChangeMethod(UpdateObjectEventArgs eventArgs)
         {
-            if (eventArgs == null) throw new ArgumentNullException(nameof(eventArgs));
+            if (eventArgs == null) throw new ArgumentNullException("eventArgs");
 
             OnChange(this, eventArgs);
         }
