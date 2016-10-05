@@ -11,6 +11,11 @@ namespace ProjectAlgorithm.Entities
 
         public IList<IFace> Faces { get { return faces; } }
 
+        public Entity()
+        {
+            faces = new List<IFace>();
+        }
+
         public Entity(IEnumerable<IFace> faces)
         {
             this.faces = faces as IList<IFace> ?? faces.ToList();

@@ -11,6 +11,10 @@ namespace ProjectAlgorithm.Entities
 
         public IList<ILine> Lines { get { return lines; } }
 
+        public Face()
+        {
+            lines = new List<ILine>();
+        }
 
         public Face(IEnumerable<ILine> lines)
         {
