@@ -52,6 +52,7 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject MoveObject(ICompositeObject compositeObject, float moveX, float moveY, float moveZ)
         {
+            
             var moveMatrix = DenseMatrix.OfArray(new[,] {
                                                     { 1, 0, 0, 0},
                                                     { 0, 1, 0, 0},
@@ -62,55 +63,98 @@ namespace ProjectAlgorithm.Transformations
             return Transform(compositeObject, moveMatrix);
         }
 
-        public ICompositeObject Proection(ICompositeObject compositeObject, float psi, float fi)
+        public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
+        {
+            var angleAlpha = (alpha * (Math.PI / 180.0));
+            
+            var projection = DenseMatrix.OfArray(new[,] {
+                                                    { 1, 0, 0, 0},
+                                                    { 0, 1, 0, 0},
+                                                    { l*(float)Math.Cos(angleAlpha), l*(float)Math.Sin(angleAlpha), 0, 0},
+                                                    { 0, 0, 0, 1 }
+            });
+
+            return Transform(compositeObject, projection);
+        }
+
+        public ICompositeObject CentralProjection(ICompositeObject compositeObject, float distance)
+        {
+            //var projection = DenseMatrix.OfArray(new[,] {
+            //                                        { 1, 0, 0, 0},
+            //                                        { 0, 1, 0, 0},
+            //                                        { 0, 0, 1, 1/distance},
+            //                                        { 0, 0, 0, 0 }
+            //});
+
+            var lines = compositeObject.GetLines();
+            var param = 0.01f;
+            foreach (var line in lines)
+            {
+                line.First.Z = line.First.Z == 0.0f ? param : line.First.Z;
+                line.First.X = line.First.X * distance / line.First.Z;
+                line.First.Y = line.First.Y * distance / line.First.Z;
+                line.First.Z = distance;
+
+                line.Second.Z = line.Second.Z == 0.0f ? param : line.Second.Z;
+                line.Second.X = line.Second.X * distance / line.Second.Z;
+                line.Second.Y = line.Second.Y * distance / line.Second.Z;
+                line.Second.Z = distance;
+            }
+
+            return compositeObject;
+
+            //return Transform(compositeObject, projection);
+        }
+
+        public ICompositeObject OrthogonalProjection(ICompositeObject compositeObject, float psi, float fi)
         {
             var anglePsi = (psi * (Math.PI / 180.0));
             var angleFi = (fi * (Math.PI / 180.0));
 
-            var proection = DenseMatrix.OfArray(new[,] {
+            var projection = DenseMatrix.OfArray(new[,] {
                                                     { (float)Math.Cos(anglePsi), (float)Math.Sin(anglePsi)*(float)Math.Sin(angleFi), 0, 0},
                                                     { 0, (float)Math.Cos(angleFi), 0, 0},
                                                     { (float)Math.Sin(anglePsi), -(float)Math.Sin(angleFi)*(float)Math.Cos(anglePsi), 0, 0},
                                                     { 0, 0, 0, 1 }
             });
 
-            return Transform(compositeObject, proection);
+            return Transform(compositeObject, projection);
         }
 
-        public ICompositeObject ProectionZ(ICompositeObject compositeObject)
+        public ICompositeObject ProjectionZ(ICompositeObject compositeObject)
         {
-            var proection = DenseMatrix.OfArray(new[,] {
+            var projection = DenseMatrix.OfArray(new[,] {
                                                     { 1.0f, 0, 0, 0},
                                                     { 0, 1.0f, 0, 0},
                                                     { 0, 0, 0, 0},
                                                     { 0, 0, 0, 1.0f }
             });
 
-            return Transform(compositeObject, proection);
+            return Transform(compositeObject, projection);
         }
 
-        public ICompositeObject ProectionX(ICompositeObject compositeObject)
+        public ICompositeObject ProjectionX(ICompositeObject compositeObject)
         {
-            var proection = DenseMatrix.OfArray(new[,] {
+            var projection = DenseMatrix.OfArray(new[,] {
                                                     { 0, 0, 0, 0},
                                                     { 0, 1, 0, 0},
                                                     { 0, 0, 1, 0},
                                                     { 0, 0, 0, 1.0f }
             });
 
-            return Transform(compositeObject, proection);
+            return Transform(compositeObject, projection);
         }
 
-        public ICompositeObject ProectionY(ICompositeObject compositeObject)
+        public ICompositeObject ProjectionY(ICompositeObject compositeObject)
         {
-            var proection = DenseMatrix.OfArray(new[,] {
+            var projection = DenseMatrix.OfArray(new[,] {
                                                     { 1, 0, 0, 0},
                                                     { 0, 0, 0, 0},
                                                     { 0, 0, 1, 0},
                                                     { 0, 0, 0, 1.0f }
             });
 
-            return Transform(compositeObject, proection);
+            return Transform(compositeObject, projection);
         }
 
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
