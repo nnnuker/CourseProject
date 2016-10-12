@@ -9,42 +9,44 @@ namespace ProjectAlgorithm.Transformations
 {
     public class Transformation : ITransformation
     {
+        #region Transformations
+
         public ICompositeObject ScaleObject(ICompositeObject compositeObject, float scaleX, float scaleY, float scaleZ)
         {
             var scaleMatrix = DenseMatrix.OfArray(new[,] {
-                                                    {scaleX, 0, 0, 0},
-                                                    {0, scaleY, 0, 0},
-                                                    {0, 0, scaleZ, 0},
-                                                    {0, 0, 0, 1 }
-                                                 });
+                {scaleX, 0, 0, 0},
+                {0, scaleY, 0, 0},
+                {0, 0, scaleZ, 0},
+                {0, 0, 0, 1 }
+            });
             return Transform(compositeObject, scaleMatrix);
         }
 
         public ICompositeObject RotateObject(ICompositeObject compositeObject, float angleX, float angleY, float angleZ)
         {
-            var angleRx = (angleX * (Math.PI / 180.0));
-            var angleRy = (angleY * (Math.PI / 180.0));
-            var angleRz = (angleZ * (Math.PI / 180.0));
+            var angleRx = RadiansFromAngle(angleX);
+            var angleRy = RadiansFromAngle(angleY);
+            var angleRz = RadiansFromAngle(angleZ);
 
             var rotateZ = DenseMatrix.OfArray(new[,] {
-                                                    { (float)Math.Cos(angleRz), (float)Math.Sin(angleRz), 0, 0},
-                                                    { -(float)Math.Sin(angleRz), (float)Math.Cos(angleRz), 0, 0},
-                                                    { 0, 0, 1, 0},
-                                                    { 0, 0, 0, 1 }
+                { (float)Math.Cos(angleRz), (float)Math.Sin(angleRz), 0, 0},
+                { -(float)Math.Sin(angleRz), (float)Math.Cos(angleRz), 0, 0},
+                { 0, 0, 1, 0},
+                { 0, 0, 0, 1 }
             });
 
             var rotateX = DenseMatrix.OfArray(new[,] {
-                                                    { 1, 0, 0, 0 },
-                                                    { 0, (float)Math.Cos(angleRx), (float)Math.Sin(angleRx), 0 },
-                                                    { 0, -(float)Math.Sin(angleRx), (float)Math.Cos(angleRx), 0 },
-                                                    { 0, 0, 0, 1 }
+                { 1, 0, 0, 0 },
+                { 0, (float)Math.Cos(angleRx), (float)Math.Sin(angleRx), 0 },
+                { 0, -(float)Math.Sin(angleRx), (float)Math.Cos(angleRx), 0 },
+                { 0, 0, 0, 1 }
             });
 
             var rotateY = DenseMatrix.OfArray(new[,] {
-                                                    { (float)Math.Cos(angleRy), 0, -(float)Math.Sin(angleRy), 0 },
-                                                    { 0, 1, 0, 0 },
-                                                    { (float)Math.Sin(angleRy),0, (float)Math.Cos(angleRy),0 },
-                                                    { 0, 0, 0, 1 }
+                { (float)Math.Cos(angleRy), 0, -(float)Math.Sin(angleRy), 0 },
+                { 0, 1, 0, 0 },
+                { (float)Math.Sin(angleRy),0, (float)Math.Cos(angleRy),0 },
+                { 0, 0, 0, 1 }
             });
 
             return Transform(compositeObject, (rotateX * rotateY * rotateZ));
@@ -54,24 +56,76 @@ namespace ProjectAlgorithm.Transformations
         {
             
             var moveMatrix = DenseMatrix.OfArray(new[,] {
-                                                    { 1, 0, 0, 0},
-                                                    { 0, 1, 0, 0},
-                                                    { 0, 0, 1, 0},
-                                                    { moveX, moveY, moveZ, 1}
-                                                  });
+                { 1, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { 0, 0, 1, 0},
+                { moveX, moveY, moveZ, 1}
+            });
 
             return Transform(compositeObject, moveMatrix);
         }
 
+        #endregion
+
+        #region Projections
+
+        public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro, float distance)
+        {
+            var fiAngle = RadiansFromAngle(fi);
+            var tetaAngle = RadiansFromAngle(teta);
+
+            var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
+            var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
+            var zE = (float)(ro * Math.Cos(fiAngle));
+
+            var tMatrix = DenseMatrix.OfArray(new[,] {
+                { 1, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { 0, 0, 1, 0},
+                { -xE, -yE, -zE, 1 }
+            });
+
+            var rzMatrix = DenseMatrix.OfArray(new[,] {
+                { (float)Math.Cos(Math.PI/2 - tetaAngle), (float)Math.Sin(Math.PI/2 - tetaAngle), 0, 0},
+                { -(float)Math.Sin(Math.PI/2 - tetaAngle), (float)Math.Cos(Math.PI/2 - tetaAngle), 0, 0},
+                { 0, 0, 1, 0},
+                { 0, 0, 0, 1 }
+            });
+
+            var rxMatrix = DenseMatrix.OfArray(new[,] {
+                { 1, 0, 0, 0},
+                { 0, (float)Math.Cos(fiAngle - Math.PI), (float)Math.Sin(fiAngle - Math.PI), 0},
+                { 0, -(float)Math.Sin(fiAngle - Math.PI), (float)Math.Cos(fiAngle - Math.PI), 0},
+                { 0, 0, 0, 1 }
+            });
+
+            var sMatrix = DenseMatrix.OfArray(new[,] {
+                { 1.0f, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { 0, 0, -1, 0},
+                { 0, 0, 0, 1 }
+            });
+
+            var vMatrix = DenseMatrix.OfArray(new[,] {
+                { -(float)Math.Sin(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
+                { (float)Math.Cos(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Sin(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Sin(tetaAngle), 0},
+                { 0, (float)Math.Sin(fiAngle), -(float)Math.Cos(fiAngle), 0},
+                { 0, 0, ro, 1 }
+            });
+            //var vMatrix = tMatrix * rzMatrix * rxMatrix * sMatrix;
+
+            return CentralProjection(Transform(compositeObject, vMatrix), distance);
+        }
+
         public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
         {
-            var angleAlpha = (alpha * (Math.PI / 180.0));
+            var angleAlpha = RadiansFromAngle(alpha);
             
             var projection = DenseMatrix.OfArray(new[,] {
-                                                    { 1, 0, 0, 0},
-                                                    { 0, 1, 0, 0},
-                                                    { l*(float)Math.Cos(angleAlpha), l*(float)Math.Sin(angleAlpha), 0, 0},
-                                                    { 0, 0, 0, 1 }
+                { 1, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { l*(float)Math.Cos(angleAlpha), l*(float)Math.Sin(angleAlpha), 0, 0},
+                { 0, 0, 0, 1 }
             });
 
             return Transform(compositeObject, projection);
@@ -87,18 +141,12 @@ namespace ProjectAlgorithm.Transformations
             //});
 
             var lines = compositeObject.GetLines();
-            var param = 0.01f;
+
             foreach (var line in lines)
             {
-                line.First.Z = line.First.Z == 0.0f ? param : line.First.Z;
-                line.First.X = line.First.X * distance / line.First.Z;
-                line.First.Y = line.First.Y * distance / line.First.Z;
-                line.First.Z = distance;
+                line.First = CentralPoints(line.First, distance);
 
-                line.Second.Z = line.Second.Z == 0.0f ? param : line.Second.Z;
-                line.Second.X = line.Second.X * distance / line.Second.Z;
-                line.Second.Y = line.Second.Y * distance / line.Second.Z;
-                line.Second.Z = distance;
+                line.Second = CentralPoints(line.Second, distance);
             }
 
             return compositeObject;
@@ -108,14 +156,14 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject OrthogonalProjection(ICompositeObject compositeObject, float psi, float fi)
         {
-            var anglePsi = (psi * (Math.PI / 180.0));
-            var angleFi = (fi * (Math.PI / 180.0));
+            var anglePsi = RadiansFromAngle(psi);
+            var angleFi = RadiansFromAngle(fi);
 
             var projection = DenseMatrix.OfArray(new[,] {
-                                                    { (float)Math.Cos(anglePsi), (float)Math.Sin(anglePsi)*(float)Math.Sin(angleFi), 0, 0},
-                                                    { 0, (float)Math.Cos(angleFi), 0, 0},
-                                                    { (float)Math.Sin(anglePsi), -(float)Math.Sin(angleFi)*(float)Math.Cos(anglePsi), 0, 0},
-                                                    { 0, 0, 0, 1 }
+                { (float)Math.Cos(anglePsi), (float)Math.Sin(anglePsi)*(float)Math.Sin(angleFi), 0, 0},
+                { 0, (float)Math.Cos(angleFi), 0, 0},
+                { (float)Math.Sin(anglePsi), -(float)Math.Sin(angleFi)*(float)Math.Cos(anglePsi), 0, 0},
+                { 0, 0, 0, 1 }
             });
 
             return Transform(compositeObject, projection);
@@ -124,10 +172,10 @@ namespace ProjectAlgorithm.Transformations
         public ICompositeObject ProjectionZ(ICompositeObject compositeObject)
         {
             var projection = DenseMatrix.OfArray(new[,] {
-                                                    { 1.0f, 0, 0, 0},
-                                                    { 0, 1.0f, 0, 0},
-                                                    { 0, 0, 0, 0},
-                                                    { 0, 0, 0, 1.0f }
+                { 1.0f, 0, 0, 0},
+                { 0, 1.0f, 0, 0},
+                { 0, 0, 0, 0},
+                { 0, 0, 0, 1.0f }
             });
 
             return Transform(compositeObject, projection);
@@ -136,10 +184,10 @@ namespace ProjectAlgorithm.Transformations
         public ICompositeObject ProjectionX(ICompositeObject compositeObject)
         {
             var projection = DenseMatrix.OfArray(new[,] {
-                                                    { 0, 0, 0, 0},
-                                                    { 0, 1, 0, 0},
-                                                    { 0, 0, 1, 0},
-                                                    { 0, 0, 0, 1.0f }
+                { 0, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { 0, 0, 1, 0},
+                { 0, 0, 0, 1.0f }
             });
 
             return Transform(compositeObject, projection);
@@ -148,13 +196,29 @@ namespace ProjectAlgorithm.Transformations
         public ICompositeObject ProjectionY(ICompositeObject compositeObject)
         {
             var projection = DenseMatrix.OfArray(new[,] {
-                                                    { 1, 0, 0, 0},
-                                                    { 0, 0, 0, 0},
-                                                    { 0, 0, 1, 0},
-                                                    { 0, 0, 0, 1.0f }
+                { 1, 0, 0, 0},
+                { 0, 0, 0, 0},
+                { 0, 0, 1, 0},
+                { 0, 0, 0, 1.0f }
             });
 
             return Transform(compositeObject, projection);
+        }
+
+        #endregion
+
+        #region Private
+
+        private IPoint CentralPoints(IPoint point, float distance)
+        {
+            var point1 = new Point();
+            var param = 0.1f;
+            point1.Z = Math.Abs(point.Z) <= 0.1f ? param : point.Z;
+            point1.X = point.X * distance / point1.Z;
+            point1.Y = point.Y * distance / point1.Z;
+            point1.Z = distance;
+
+            return point1;
         }
 
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
@@ -168,7 +232,12 @@ namespace ProjectAlgorithm.Transformations
             return compositeObject;
         }
 
-        private Vector<float> Vector(IPoint point)
+        private static double RadiansFromAngle(double angle)
+        {
+            return (angle * (Math.PI / 180.0));
+        }
+
+        private static Vector<float> Vector(IPoint point)
         {
             if (point == null) throw new ArgumentNullException("point");
 
@@ -184,5 +253,7 @@ namespace ProjectAlgorithm.Transformations
                 Z = vector[2]
             };
         }
+
+        #endregion
     }
 }
