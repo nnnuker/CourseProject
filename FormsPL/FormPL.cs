@@ -34,7 +34,7 @@ namespace FormsPL
         private Pen pen = new Pen(Color.Blue);
         private Pen axisPen = new Pen(Color.Coral);
         private int axisPadding = 5;
-        private Action<Graphics, Pen, ILine> DrawAction;
+        private Action<Graphics, Pen, ILine, float, float> DrawAction;
 
         #endregion
 
@@ -53,7 +53,7 @@ namespace FormsPL
 
         #region Drawing
 
-        private void Draw(ICompositeObject compositeObject, Action<Graphics, Pen, ILine> DrawAction)
+        private void Draw(ICompositeObject compositeObject, float deltaX, float deltaY, Action<Graphics, Pen, ILine, float, float> DrawAction)
         {
             this.DrawAction = DrawAction;
             var bitmap = new Bitmap(drawingBox.Width, drawingBox.Height);
@@ -63,17 +63,42 @@ namespace FormsPL
 
             drawingBox.Image = bitmap;
 
-            DrawAxis(graphics, deltaX, deltaY);
+            DrawAxis(graphics, this.deltaX, this.deltaY);
 
             if (compositeObject == null)
             {
                 return;
             }
 
-            foreach (var line in compositeObject.GetLines())
+            var lines = new List<ILine>();
+
+            pen.Color = Color.Blue;
+
+            foreach (var entity in compositeObject.Entities)
             {
-                DrawAction(graphics, pen, line);
+                lines.Clear();
+
+                foreach (var face in entity.Faces)
+                {
+                    lines.AddRange(face.Lines);
+                }
+
+                lines = lines.Distinct().ToList();
+
+                foreach (var item in lines)
+                {
+                    DrawAction(graphics, pen, item, this.deltaX, this.deltaY);
+                }
+
+                pen.Color = Color.Green;
             }
+
+            
+
+            //foreach (var line in compositeObject.GetLines())
+            //{
+            //    DrawAction(graphics, pen, line, this.deltaX, this.deltaY);
+            //}
         }
 
         private void DrawAxis(Graphics graphics, float deltaX, float deltaY)
@@ -88,19 +113,19 @@ namespace FormsPL
             axisPen.CustomEndCap = new AdjustableArrowCap(5, 5);
         }
 
-        private void CoordinatesXY(Graphics graphics, Pen pen, ILine line)
+        private void CoordinatesXY(Graphics graphics, Pen pen, ILine line, float deltaX, float deltaY)
         {
             graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Y + deltaY, line.Second.X + deltaX, -line.Second.Y + deltaY);
         }
 
-        private void CoordinatesZY(Graphics graphics, Pen pen, ILine line)
+        private void CoordinatesZY(Graphics graphics, Pen pen, ILine line, float deltaX, float deltaY)
         {
             graphics.DrawLine(pen, line.First.Z + deltaX, -line.First.Y + deltaY, line.Second.Z + deltaX, -line.Second.Y + deltaY);
         }
 
-        private void CoordinatesXZ(Graphics graphics, Pen pen, ILine line)
+        private void CoordinatesXZ(Graphics graphics, Pen pen, ILine line, float deltaX, float deltaY)
         {
-            graphics.DrawLine(pen, line.First.X + deltaX, line.First.Z + deltaY, line.Second.X + deltaX, line.Second.Z + deltaY);
+            graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Z + deltaY, line.Second.X + deltaX, -line.Second.Z + deltaY);
         }
 
         #endregion
@@ -111,7 +136,7 @@ namespace FormsPL
         {
             compositeObject = transformation.MoveObject(compositeObject, (float)moveX.Value, (float)moveY.Value, (float)moveZ.Value);
             currentComposite = compositeObject.Clone() as ICompositeObject;
-            Draw(compositeObject, CoordinatesXY);
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
 
         private void drawButton_Click(object sender, EventArgs e)
@@ -120,21 +145,21 @@ namespace FormsPL
             holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value);
             compositeObject = new CompositeObject(new List<IEntity> { holeEntity, entity });
             currentComposite = compositeObject.Clone() as ICompositeObject;
-            Draw(compositeObject, CoordinatesXY);
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
 
         private void rotateButton_Click(object sender, EventArgs e)
         {
             compositeObject = transformation.RotateObject(compositeObject, (float)rotateX.Value, (float)rotateY.Value, (float)rotateZ.Value);
             currentComposite = compositeObject.Clone() as ICompositeObject;
-            Draw(compositeObject, CoordinatesXY);
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
 
         private void scaleButton_Click(object sender, EventArgs e)
         {
             compositeObject = transformation.ScaleObject(compositeObject, (float)scaleX.Value, (float)scaleY.Value, (float)scaleZ.Value);
             currentComposite = compositeObject.Clone() as ICompositeObject;
-            Draw(compositeObject, CoordinatesXY);
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
 
         #endregion
@@ -148,7 +173,7 @@ namespace FormsPL
                 float y = (e.X - current.X) / 100.0f;
                 float x = (e.Y - current.Y) / 100.0f;
                 currentComposite = transformation.RotateObject(currentComposite, x, y, 0);
-                Draw(currentComposite, DrawAction);
+                Draw(currentComposite, deltaX, deltaY, DrawAction);
             }
         }
 
@@ -178,7 +203,7 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).OrthogonalProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
 
-            Draw(currentComposite, CoordinatesXY);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
         }
 
         private void xButton_Click(object sender, EventArgs e)
@@ -186,7 +211,7 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).ProjectionX(currentComposite);
 
-            Draw(currentComposite, CoordinatesZY);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesZY);
         }
 
         private void yButton_Click(object sender, EventArgs e)
@@ -194,7 +219,7 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).ProjectionY(currentComposite);
 
-            Draw(currentComposite, CoordinatesXZ);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXZ);
         }
 
         private void zButton_Click(object sender, EventArgs e)
@@ -202,7 +227,7 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).ProjectionZ(currentComposite);
 
-            Draw(currentComposite, CoordinatesXY);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
         }
 
         private void obliqueButton_Click(object sender, EventArgs e)
@@ -210,7 +235,7 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
 
-            Draw(currentComposite, CoordinatesXY);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
         }
 
         private void centralButton_Click(object sender, EventArgs e)
@@ -218,7 +243,16 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = ((Transformation)transformation).CentralProjection(currentComposite, (float)distance.Value);
 
-            Draw(currentComposite, CoordinatesXY);
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+        }
+
+        private void viewButton_Click(object sender, EventArgs e)
+        {
+            currentComposite = compositeObject.Clone() as ICompositeObject;
+            currentComposite = ((Transformation)transformation).ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value,
+                (float)ro.Value, (float)distance.Value);
+
+            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
         }
 
         #endregion
@@ -232,7 +266,14 @@ namespace FormsPL
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            Draw(currentComposite, DrawAction);
+            Draw(currentComposite, deltaX, deltaY, DrawAction);
         }
+
+        private void distance_ValueChanged(object sender, EventArgs e)
+        {
+            centralButton_Click(sender, e);
+        }
+
+
     }
 }
