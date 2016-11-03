@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectAlgorithm.Interfaces;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm
 {

@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using ProjectAlgorithm.Interfaces;
+﻿using System.Collections.Generic;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {
@@ -25,6 +24,11 @@ namespace ProjectAlgorithm.Entities
         {
             get { return second; }
             set { second = value; }
+        }
+
+        public IEnumerable<IPoint> Points
+        {
+            get { return new[] { First, Second }; }
         }
 
         #endregion

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using ProjectAlgorithm.Entities;
-using ProjectAlgorithm.Interfaces;
+using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.Transformations;
 
 namespace ProjectAlgorithm.Transformations
 {
@@ -74,42 +75,42 @@ namespace ProjectAlgorithm.Transformations
             var fiAngle = RadiansFromAngle(fi);
             var tetaAngle = RadiansFromAngle(teta);
 
-            var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
-            var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
-            var zE = (float)(ro * Math.Cos(fiAngle));
+            //var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
+            //var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
+            //var zE = (float)(ro * Math.Cos(fiAngle));
 
-            var tMatrix = DenseMatrix.OfArray(new[,] {
-                { 1, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { 0, 0, 1, 0},
-                { -xE, -yE, -zE, 1 }
-            });
+            //var tMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1, 0, 0, 0},
+            //    { 0, 1, 0, 0},
+            //    { 0, 0, 1, 0},
+            //    { -xE, -yE, -zE, 1 }
+            //});
 
-            var rzMatrix = DenseMatrix.OfArray(new[,] {
-                { (float)Math.Cos(Math.PI/2 - tetaAngle), (float)Math.Sin(Math.PI/2 - tetaAngle), 0, 0},
-                { -(float)Math.Sin(Math.PI/2 - tetaAngle), (float)Math.Cos(Math.PI/2 - tetaAngle), 0, 0},
-                { 0, 0, 1, 0},
-                { 0, 0, 0, 1 }
-            });
+            //var rzMatrix = DenseMatrix.OfArray(new[,] {
+            //    { (float)Math.Cos(Math.PI/2 - tetaAngle), (float)Math.Sin(Math.PI/2 - tetaAngle), 0, 0},
+            //    { -(float)Math.Sin(Math.PI/2 - tetaAngle), (float)Math.Cos(Math.PI/2 - tetaAngle), 0, 0},
+            //    { 0, 0, 1, 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
-            var rxMatrix = DenseMatrix.OfArray(new[,] {
-                { 1, 0, 0, 0},
-                { 0, (float)Math.Cos(fiAngle - Math.PI), (float)Math.Sin(fiAngle - Math.PI), 0},
-                { 0, -(float)Math.Sin(fiAngle - Math.PI), (float)Math.Cos(fiAngle - Math.PI), 0},
-                { 0, 0, 0, 1 }
-            });
+            //var rxMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1, 0, 0, 0},
+            //    { 0, (float)Math.Cos(fiAngle - Math.PI), (float)Math.Sin(fiAngle - Math.PI), 0},
+            //    { 0, -(float)Math.Sin(fiAngle - Math.PI), (float)Math.Cos(fiAngle - Math.PI), 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
-            var sMatrix = DenseMatrix.OfArray(new[,] {
-                { 1.0f, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { 0, 0, -1, 0},
-                { 0, 0, 0, 1 }
-            });
+            //var sMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1.0f, 0, 0, 0},
+            //    { 0, 1, 0, 0},
+            //    { 0, 0, -1, 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
             var vMatrix = DenseMatrix.OfArray(new[,] {
-                { -(float)Math.Sin(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
-                { (float)Math.Cos(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Sin(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Sin(tetaAngle), 0},
-                { 0, (float)Math.Sin(fiAngle), -(float)Math.Cos(fiAngle), 0},
+                { (float)Math.Cos(tetaAngle), (float)Math.Cos(fiAngle)*(float)Math.Sin(tetaAngle), (float)Math.Sin(fiAngle)*(float)Math.Sin(tetaAngle), 0},
+                { (float)Math.Sin(tetaAngle), (float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), (float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
+                { 0, (float)Math.Sin(fiAngle), (float)Math.Cos(fiAngle), 0},
                 { 0, 0, ro, 1 }
             });
             //var vMatrix = tMatrix * rzMatrix * rxMatrix * sMatrix;

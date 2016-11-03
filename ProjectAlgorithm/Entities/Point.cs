@@ -1,9 +1,9 @@
-﻿using System;
-using ProjectAlgorithm.Interfaces;
+﻿using System.Collections.Generic;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {
-    public struct Point : IPoint
+    public class Point : IPoint
     {
         #region Fields
 
@@ -36,9 +36,15 @@ namespace ProjectAlgorithm.Entities
             set { z = value; }
         }
 
+        public IEnumerable<float> Coordinates { get { return new[] {X, Y, Z}; } }
+
         #endregion
 
         #region Constructor
+
+        public Point()
+        {
+        }
 
         public Point(float x, float y, float z)
         {

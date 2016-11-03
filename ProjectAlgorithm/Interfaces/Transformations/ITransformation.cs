@@ -1,6 +1,6 @@
-﻿using ProjectAlgorithm.Interfaces;
+﻿using ProjectAlgorithm.Interfaces.Entities;
 
-namespace ProjectAlgorithm.Transformations
+namespace ProjectAlgorithm.Interfaces.Transformations
 {
     public interface ITransformation
     {

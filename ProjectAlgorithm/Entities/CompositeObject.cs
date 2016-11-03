@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ProjectAlgorithm.Interfaces;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {

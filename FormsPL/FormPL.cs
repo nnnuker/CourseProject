@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using ProjectAlgorithm;
 using ProjectAlgorithm.Entities;
-using ProjectAlgorithm.Interfaces;
+using ProjectAlgorithm.Factories;
+using ProjectAlgorithm.HiddenLines;
+using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.Factories;
+using ProjectAlgorithm.Interfaces.Transformations;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
 
@@ -80,7 +78,10 @@ namespace FormsPL
 
                 foreach (var face in entity.Faces)
                 {
-                    lines.AddRange(face.Lines);
+                    if (!face.IsHidden)
+                    {
+                        lines.AddRange(face.Lines);
+                    }
                 }
 
                 lines = lines.Distinct().ToList();
@@ -92,8 +93,6 @@ namespace FormsPL
 
                 pen.Color = Color.Green;
             }
-
-            
 
             //foreach (var line in compositeObject.GetLines())
             //{
@@ -141,8 +140,8 @@ namespace FormsPL
 
         private void drawButton_Click(object sender, EventArgs e)
         {
-            entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value);
-            holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value);
+            entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, false);
+            holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, true);
             compositeObject = new CompositeObject(new List<IEntity> { holeEntity, entity });
             currentComposite = compositeObject.Clone() as ICompositeObject;
             Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
@@ -271,9 +270,39 @@ namespace FormsPL
 
         private void distance_ValueChanged(object sender, EventArgs e)
         {
-            centralButton_Click(sender, e);
+            
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var algorithm = new RobertsAlgorithm();
 
+            var obj = compositeObject.Clone() as ICompositeObject;
+
+            obj = algorithm.HideLines(obj, new ProjectAlgorithm.Entities.Point(0, 0, 1000));
+
+            Draw(obj, 0, 0, CoordinatesXY);
+        }
+
+        private void moveX_ValueChanged(object sender, EventArgs e)
+        {
+            compositeObject = transformation.MoveObject(compositeObject, (float)moveX.Value, 0, 0);
+            currentComposite = compositeObject.Clone() as ICompositeObject;
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+        }
+
+        private void moveY_ValueChanged(object sender, EventArgs e)
+        {
+            compositeObject = transformation.MoveObject(compositeObject, 0, (float)moveY.Value, 0);
+            currentComposite = compositeObject.Clone() as ICompositeObject;
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+        }
+
+        private void moveZ_ValueChanged(object sender, EventArgs e)
+        {
+            compositeObject = transformation.MoveObject(compositeObject, 0, 0, (float)moveZ.Value);
+            currentComposite = compositeObject.Clone() as ICompositeObject;
+            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+        }
     }
 }

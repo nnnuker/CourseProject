@@ -44,22 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EntitiesFactory.cs" />
+    <Compile Include="Factories\CompositeFactory.cs" />
+    <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Entities\CompositeObject.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\Face.cs" />
     <Compile Include="Entities\Line.cs" />
     <Compile Include="Entities\Point.cs" />
-    <Compile Include="IEntitiesFactory.cs" />
-    <Compile Include="Interfaces\ICompositeObject.cs" />
+    <Compile Include="Interfaces\HiddenLines\IHiddenable.cs" />
+    <Compile Include="Interfaces\HiddenLines\IHiddenLines.cs" />
+    <Compile Include="HiddenLines\RobertsAlgorithm.cs" />
+    <Compile Include="Interfaces\Factories\IEntitiesFactory.cs" />
+    <Compile Include="Interfaces\Entities\ICompositeObject.cs" />
     <Compile Include="Interfaces\ICompositeChangeable.cs" />
-    <Compile Include="Interfaces\IEntity.cs" />
-    <Compile Include="Interfaces\IFace.cs" />
-    <Compile Include="Interfaces\ILine.cs" />
-    <Compile Include="Interfaces\IPoint.cs" />
+    <Compile Include="Interfaces\Entities\IEntity.cs" />
+    <Compile Include="Interfaces\Entities\IFace.cs" />
+    <Compile Include="Interfaces\Entities\ILine.cs" />
+    <Compile Include="Interfaces\Entities\IPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PyramidFactory.cs" />
-    <Compile Include="Transformations\ITransformation.cs" />
+    <Compile Include="Factories\PyramidFactory.cs" />
+    <Compile Include="Interfaces\Transformations\ITransformation.cs" />
     <Compile Include="Transformations\Transformation.cs" />
     <Compile Include="UpdateObjectEventArgs.cs" />
   </ItemGroup>
