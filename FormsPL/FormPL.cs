@@ -4,11 +4,9 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
-using ProjectAlgorithm.Entities;
 using ProjectAlgorithm.Factories;
 using ProjectAlgorithm.HiddenLines;
 using ProjectAlgorithm.Interfaces.Entities;
-using ProjectAlgorithm.Interfaces.Factories;
 using ProjectAlgorithm.Interfaces.Transformations;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
@@ -19,9 +17,6 @@ namespace FormsPL
     {
         #region Fields
 
-        private readonly IEntitiesFactory factory = new EntitiesFactory();
-        private IEntity holeEntity;
-        private IEntity entity;
         private ICompositeObject compositeObject;
         private ICompositeObject currentComposite;
         private readonly ITransformation transformation = new Transformation();
@@ -29,7 +24,6 @@ namespace FormsPL
         private float deltaY;
         private bool flag;
         private Point current;
-        private Pen pen = new Pen(Color.Blue);
         private Pen axisPen = new Pen(Color.Coral);
         private int axisPadding = 5;
         private Action<Graphics, Pen, ILine, float, float> DrawAction;
@@ -45,6 +39,11 @@ namespace FormsPL
             InitializeComponent();
 
             DrawAction = CoordinatesXY;
+        }
+
+        private void InitializeAxisPen()
+        {
+            axisPen.CustomEndCap = new AdjustableArrowCap(5, 5);
         }
 
         #endregion
@@ -64,13 +63,11 @@ namespace FormsPL
             DrawAxis(graphics, this.deltaX, this.deltaY);
 
             if (compositeObject == null)
-            {
                 return;
-            }
 
             var lines = new List<ILine>();
 
-            pen.Color = Color.Blue;
+            var pen = new Pen(Color.Black);
 
             foreach (var entity in compositeObject.Entities)
             {
@@ -88,10 +85,9 @@ namespace FormsPL
 
                 foreach (var item in lines)
                 {
+                    pen.Color = item.Color;
                     DrawAction(graphics, pen, item, this.deltaX, this.deltaY);
                 }
-
-                pen.Color = Color.Green;
             }
 
             //foreach (var line in compositeObject.GetLines())
@@ -105,11 +101,6 @@ namespace FormsPL
             graphics.DrawLine(axisPen, deltaX, drawingBox.Height - axisPadding, deltaX, axisPadding);
 
             graphics.DrawLine(axisPen, axisPadding, deltaY, drawingBox.Width - axisPadding, deltaY);
-        }
-
-        private void InitializeAxisPen()
-        {
-            axisPen.CustomEndCap = new AdjustableArrowCap(5, 5);
         }
 
         private void CoordinatesXY(Graphics graphics, Pen pen, ILine line, float deltaX, float deltaY)
@@ -140,10 +131,16 @@ namespace FormsPL
 
         private void drawButton_Click(object sender, EventArgs e)
         {
-            entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, false);
-            holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, true);
-            compositeObject = new CompositeObject(new List<IEntity> { holeEntity, entity });
+            var factory = new EntitiesFactory();
+
+            var entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, Color.Blue, false);
+            var holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, Color.Red, true);
+
+            var compositeFactory = new CompositeFactory(factory, Color.LawnGreen, Color.Orange);
+
+            compositeObject = compositeFactory.GetComposite(entity, holeEntity);
             currentComposite = compositeObject.Clone() as ICompositeObject;
+
             Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
 
@@ -277,7 +274,7 @@ namespace FormsPL
         {
             var algorithm = new RobertsAlgorithm();
 
-            var obj = compositeObject.Clone() as ICompositeObject;
+            var obj = currentComposite.Clone() as ICompositeObject;
 
             obj = algorithm.HideLines(obj, new ProjectAlgorithm.Entities.Point(0, 0, 1000));
 

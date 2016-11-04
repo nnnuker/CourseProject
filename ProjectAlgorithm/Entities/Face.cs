@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using ProjectAlgorithm.Interfaces.Entities;
 
@@ -15,6 +16,8 @@ namespace ProjectAlgorithm.Entities
 
         public IEnumerable<float> Normal { get { return GetNormal(); } }
         public IEnumerable<float> Center { get { return GetCenter(); } }
+
+        public Color Color { get; set; }
 
         public bool IsHidden { get; set; }
 
@@ -34,9 +37,22 @@ namespace ProjectAlgorithm.Entities
             IsHidden = false;
         }
 
+        public Face(IEnumerable<IPoint> points, Color color)
+        {
+            this.points = points as IList<IPoint> ?? points.ToList();
+
+            lines = GetLines();
+            IsHidden = false;
+            this.Color = color;
+        }
+
         public object Clone()
         {
-            return new Face(points.Select(l => (IPoint)l.Clone()));
+            return new Face(points.Select(l => (IPoint)l.Clone()), Color)
+            {
+                IsHidden = this.IsHidden,
+                ReverseNormal = this.ReverseNormal
+            };
         }
 
         private IList<ILine> GetLines()
@@ -45,10 +61,10 @@ namespace ProjectAlgorithm.Entities
 
             for (int i = 0; i < points.Count - 1; i++)
             {
-                list.Add(new Line(points[i], points[i + 1]));
+                list.Add(new Line(points[i], points[i + 1], Color));
             }
 
-            list.Add(new Line(points[points.Count - 1], points[0]));
+            list.Add(new Line(points[points.Count - 1], points[0], Color));
 
             return list;
         }
@@ -103,5 +119,7 @@ namespace ProjectAlgorithm.Entities
 
             return new [] { x, y, z };
         }
+
+        
     }
 }

@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,6 +57,7 @@
     <Compile Include="HiddenLines\RobertsAlgorithm.cs" />
     <Compile Include="Interfaces\Factories\IEntitiesFactory.cs" />
     <Compile Include="Interfaces\Entities\ICompositeObject.cs" />
+    <Compile Include="Interfaces\IColorable.cs" />
     <Compile Include="Interfaces\ICompositeChangeable.cs" />
     <Compile Include="Interfaces\Entities\IEntity.cs" />
     <Compile Include="Interfaces\Entities\IFace.cs" />

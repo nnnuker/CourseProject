@@ -7,7 +7,7 @@ using ProjectAlgorithm.Interfaces.Factories;
 
 namespace ProjectAlgorithm.Factories
 {
-    public class PyramidFactory : IEntitiesFactory
+    public class PyramidFactory
     {
         public IEntity CreateEntity(float h, float radius, int n)
         {

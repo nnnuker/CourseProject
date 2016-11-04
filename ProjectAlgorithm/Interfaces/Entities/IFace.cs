@@ -4,7 +4,7 @@ using ProjectAlgorithm.Interfaces.HiddenLines;
 
 namespace ProjectAlgorithm.Interfaces.Entities
 {
-    public interface IFace : IHiddenable, ICloneable
+    public interface IFace : IHiddenable, IColorable, ICloneable
     {
         IList<IPoint> Points { get; }
         IList<ILine> Lines { get; }

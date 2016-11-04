@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ProjectAlgorithm.Interfaces.Entities
 {
-    public interface ILine : ICloneable
+    public interface ILine : IColorable, ICloneable
     {
         IPoint First { get; set; }
 

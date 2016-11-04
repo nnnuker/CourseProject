@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
@@ -31,6 +32,8 @@ namespace ProjectAlgorithm.Entities
             get { return new[] { First, Second }; }
         }
 
+        public Color Color { get; set; }
+
         #endregion
 
         #region Constructors
@@ -46,11 +49,18 @@ namespace ProjectAlgorithm.Entities
             this.second = second;
         }
 
+        public Line(IPoint first, IPoint second, Color color)
+        {
+            this.first = first;
+            this.second = second;
+            this.Color = color;
+        }
+
         #endregion
 
         public object Clone()
         {
-            return new Line((IPoint)first.Clone(), (IPoint)second.Clone());
+            return new Line((IPoint) first.Clone(), (IPoint) second.Clone(), Color);
         }
     }
 }
