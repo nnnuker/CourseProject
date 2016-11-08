@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.Factories;
 using ProjectAlgorithm.Entities;
@@ -17,14 +18,16 @@ namespace ProjectAlgorithm.Factories
 
         public CompositeFactory(IEntitiesFactory entityFactory)
         {
-            //Check for null
+            if (entityFactory == null) throw new ArgumentNullException("entityFactory");
 
             this.entityFactory = entityFactory;
+            color = Color.Black;
+            colorBottom = Color.Black;
         }
 
         public CompositeFactory(IEntitiesFactory entityFactory, Color color, Color colorBottom)
         {
-            //Check for null
+            if (entityFactory == null) throw new ArgumentNullException("entityFactory");
 
             this.entityFactory = entityFactory;
             this.color = color;

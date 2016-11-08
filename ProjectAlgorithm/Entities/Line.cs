@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using ProjectAlgorithm.Interfaces.Entities;
 
@@ -10,6 +11,7 @@ namespace ProjectAlgorithm.Entities
 
         private IPoint first;
         private IPoint second;
+        private List<IPoint> points;
 
         #endregion
 
@@ -29,10 +31,12 @@ namespace ProjectAlgorithm.Entities
 
         public IEnumerable<IPoint> Points
         {
-            get { return new[] { First, Second }; }
+            get { return new[] { first, second }; }
         }
 
-        public Color Color { get; set; }
+        public Color Color { get; set; } = Color.Black;
+
+        public bool IsHidden { get; set; }
 
         #endregion
 
@@ -45,22 +49,40 @@ namespace ProjectAlgorithm.Entities
 
         public Line(IPoint first, IPoint second)
         {
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+
             this.first = first;
             this.second = second;
         }
 
-        public Line(IPoint first, IPoint second, Color color)
+        public Line(IPoint first, IPoint second, Color color, bool isHidden) : this(first, second)
         {
-            this.first = first;
-            this.second = second;
             this.Color = color;
+            IsHidden = isHidden;
         }
 
         #endregion
 
+        #region Public methods
+
         public object Clone()
         {
-            return new Line((IPoint) first.Clone(), (IPoint) second.Clone(), Color);
+            return new Line((IPoint) first.Clone(), (IPoint) second.Clone(), Color, IsHidden);
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is Line))
+        //    {
+        //        return false;
+        //    }
+
+        //    var line = (Line) obj;
+
+        //    return first.Equals(line.first) && this.second.Equals(line.second);
+        //}
+
+        #endregion
     }
 }

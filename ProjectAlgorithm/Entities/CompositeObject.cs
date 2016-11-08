@@ -8,10 +8,19 @@ namespace ProjectAlgorithm.Entities
 {
     public class CompositeObject : ICompositeObject, ICompositeChangeable
     {
+        #region Fields
+
         private readonly IList<IEntity> entities;
-        private List<ILine> lines;
+
+        #endregion
+
+        #region Event
 
         public event EventHandler<UpdateObjectEventArgs> OnChange = delegate { };
+
+        #endregion
+
+        #region Properties
 
         public IList<IEntity> Entities
         {
@@ -21,41 +30,51 @@ namespace ProjectAlgorithm.Entities
             }
         }
 
+        #endregion
+
+        #region Ctors
+
         public CompositeObject()
         {
             entities = new List<IEntity>();
-            lines = new List<ILine>();
         }
 
         public CompositeObject(IEnumerable<IEntity> entities)
         {
             this.entities = entities as IList<IEntity> ?? entities.ToList();
-            lines = new List<ILine>();
         }
+
+        #endregion
+
+        #region Public methods
 
         public IList<ILine> GetLines()
         {
-            if (this.lines.Count != 0)
-            {
-                return this.lines;
-            }
-
-            this.lines.Clear();
+            var lines = new List<ILine>();
 
             foreach (var entity in entities)
             {
                 foreach (var face in entity.Faces)
                 {
-                    this.lines.AddRange(face.Lines);
+                    lines.AddRange(face.Lines);
                 }
             }
 
             lines = lines.Distinct().ToList();
 
-            OnChangeMethod(new UpdateObjectEventArgs(lines));
+            //OnChangeMethod(new UpdateObjectEventArgs(lines));
 
             return lines;
         }
+
+        public object Clone()
+        {
+            return new CompositeObject(entities.Select(e => (IEntity)e.Clone()));
+        }
+
+        #endregion
+
+        #region Protected method
 
         protected virtual void OnChangeMethod(UpdateObjectEventArgs eventArgs)
         {
@@ -64,11 +83,6 @@ namespace ProjectAlgorithm.Entities
             OnChange(this, eventArgs);
         }
 
-        public object Clone()
-        {
-            return new CompositeObject(entities.Select(e => (IEntity)e.Clone()));
-        }
-
-        
+        #endregion
     }
 }

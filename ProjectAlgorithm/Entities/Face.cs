@@ -1,15 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {
     public class Face : IFace
     {
-        private IList<IPoint> points;
-        private IList<ILine> lines;
+        #region Fields
+
+        private readonly IList<IPoint> points;
+        private readonly IList<ILine> lines;
+
+        #endregion
+
+        #region Properties
 
         public IList<IPoint> Points { get { return points; } }
         public IList<ILine> Lines { get { return lines; } }
@@ -17,11 +25,15 @@ namespace ProjectAlgorithm.Entities
         public IEnumerable<float> Normal { get { return GetNormal(); } }
         public IEnumerable<float> Center { get { return GetCenter(); } }
 
-        public Color Color { get; set; }
+        public Color Color { get; set; } = Color.Black;
 
         public bool IsHidden { get; set; }
 
         public bool ReverseNormal { get; set; }
+
+        #endregion
+
+        #region Ctors
 
         public Face()
         {
@@ -31,20 +43,27 @@ namespace ProjectAlgorithm.Entities
 
         public Face(IEnumerable<IPoint> points)
         {
-            this.points = points as IList<IPoint> ?? points.ToList();
+            if (points == null) throw new ArgumentNullException("points");
+
+            this.points = points.ToList();
 
             lines = GetLines();
-            IsHidden = false;
         }
 
         public Face(IEnumerable<IPoint> points, Color color)
         {
-            this.points = points as IList<IPoint> ?? points.ToList();
+            if (points == null) throw new ArgumentNullException("points");
+
+            this.points = points.ToList();
+
+            this.Color = color;
 
             lines = GetLines();
-            IsHidden = false;
-            this.Color = color;
         }
+
+        #endregion
+
+        #region Public methods
 
         public object Clone()
         {
@@ -55,27 +74,47 @@ namespace ProjectAlgorithm.Entities
             };
         }
 
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is Face))
+        //    {
+        //        return false;
+        //    }
+
+        //    var face = (Face)obj;
+
+        //    return this.points.SequenceEqual(face.points);
+        //}
+
+        #endregion
+
+        #region Private methods
+
         private IList<ILine> GetLines()
         {
             var list = new List<ILine>();
 
-            for (int i = 0; i < points.Count - 1; i++)
+            if (points.Count < 2)
             {
-                list.Add(new Line(points[i], points[i + 1], Color));
+                return list;
             }
 
-            list.Add(new Line(points[points.Count - 1], points[0], Color));
+            for (var i = 0; i < points.Count - 1; i++)
+            {
+                list.Add(new Line(points[i], points[i + 1], Color, IsHidden));
+            }
+
+            list.Add(new Line(points[points.Count - 1], points[0], Color, IsHidden));
 
             return list;
         }
 
         private IEnumerable<float> GetCenter()
         {
-            var points = Lines.Aggregate(new List<IPoint>(), (list, line) =>
+            if (points == null || points.Count < 3)
             {
-                list.AddRange(line.Points);
-                return list;
-            }).Distinct().ToList();
+                return null;
+            }
 
             var coordCount = points.First().Coordinates.Count();
 
@@ -106,20 +145,15 @@ namespace ProjectAlgorithm.Entities
             var third = Lines[2].First;
 
             var x = first.Y * second.Z + second.Y * third.Z + third.Y * first.Z - 
-                second.Y * first.Z - third.Y * second.Z - first.Y * third.Z;
+                    second.Y * first.Z - third.Y * second.Z - first.Y * third.Z;
             var y = first.Z * second.X + second.Z * third.X + third.Z * first.X - 
-                second.Z * first.X - third.Z * second.X - first.Z * third.X;
+                    second.Z * first.X - third.Z * second.X - first.Z * third.X;
             var z = first.X * second.Y + second.X * third.Y + third.X * first.Y - 
-                second.X * first.Y - third.X * second.Y - first.X * third.Y;
+                    second.X * first.Y - third.X * second.Y - first.X * third.Y;
 
-            if (ReverseNormal)
-            {
-                return new[] { -x, -y, -z };
-            }
-
-            return new [] { x, y, z };
+            return ReverseNormal ? new[] { -x, -y, -z } : new [] { x, y, z };
         }
 
-        
+        #endregion
     }
 }

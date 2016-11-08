@@ -3,13 +3,32 @@ using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using ProjectAlgorithm.Entities;
+using ProjectAlgorithm.HiddenLines;
 using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.HiddenLines;
 using ProjectAlgorithm.Interfaces.Transformations;
 
 namespace ProjectAlgorithm.Transformations
 {
-    public class Transformation : ITransformation
+    public class Transformation : ITransformation, IProjections, IHiddenLines
     {
+        private readonly IHiddenLines hiddenLines;
+
+        public Transformation()
+        {
+            hiddenLines = new RobertsAlgorithm();
+        }
+
+        public Transformation(IHiddenLines hiddenLines)
+        {
+            if (hiddenLines == null)
+            {
+                throw new ArgumentNullException("hiddenLines");
+            }
+
+            this.hiddenLines = hiddenLines;
+        }
+
         #region Transformations
 
         public ICompositeObject ScaleObject(ICompositeObject compositeObject, float scaleX, float scaleY, float scaleZ)
@@ -208,6 +227,15 @@ namespace ProjectAlgorithm.Transformations
 
         #endregion
 
+        #region Hidden lines
+
+        public ICompositeObject HideLines(ICompositeObject composite, IPoint viewPoint)
+        {
+            return hiddenLines.HideLines(composite, viewPoint);
+        }
+
+        #endregion
+
         #region Private
 
         private IPoint CentralPoints(IPoint point, float distance)
@@ -225,11 +253,13 @@ namespace ProjectAlgorithm.Transformations
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
         {
             var lines = compositeObject.GetLines();
+
             foreach (var line in lines)
             {
                 line.First = PointOutVector(Vector(line.First) * matrix);
                 line.Second = PointOutVector(Vector(line.Second) * matrix);
             }
+
             return compositeObject;
         }
 

@@ -387,6 +387,7 @@
             this.rotateX.Name = "rotateX";
             this.rotateX.Size = new System.Drawing.Size(75, 20);
             this.rotateX.TabIndex = 18;
+            this.rotateX.ValueChanged += new System.EventHandler(this.rotateX_ValueChanged);
             // 
             // rotateY
             // 
@@ -405,6 +406,7 @@
             this.rotateY.Name = "rotateY";
             this.rotateY.Size = new System.Drawing.Size(75, 20);
             this.rotateY.TabIndex = 19;
+            this.rotateY.ValueChanged += new System.EventHandler(this.rotateY_ValueChanged);
             // 
             // rotateZ
             // 
@@ -423,6 +425,7 @@
             this.rotateZ.Name = "rotateZ";
             this.rotateZ.Size = new System.Drawing.Size(75, 20);
             this.rotateZ.TabIndex = 20;
+            this.rotateZ.ValueChanged += new System.EventHandler(this.rotateZ_ValueChanged);
             // 
             // label8
             // 
@@ -477,6 +480,7 @@
             0,
             0,
             0});
+            this.scaleX.ValueChanged += new System.EventHandler(this.scaleX_ValueChanged);
             // 
             // scaleY
             // 
@@ -501,6 +505,7 @@
             0,
             0,
             0});
+            this.scaleY.ValueChanged += new System.EventHandler(this.scaleY_ValueChanged);
             // 
             // scaleZ
             // 
@@ -525,6 +530,7 @@
             0,
             0,
             0});
+            this.scaleZ.ValueChanged += new System.EventHandler(this.scaleZ_ValueChanged);
             // 
             // label11
             // 

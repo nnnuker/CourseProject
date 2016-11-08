@@ -11,6 +11,8 @@ namespace ProjectAlgorithm.Factories
 {
     public class EntitiesFactory : IEntitiesFactory
     {
+        #region Public methods
+
         public IEntity CreateEntity(float h, float radius, int n, Color color, bool reverseNormal = false)
         {
             return CreateEntity(h, radius, radius, n, 0, 0, 0, 0, 0, 0, color, reverseNormal);
@@ -43,6 +45,10 @@ namespace ProjectAlgorithm.Factories
 
             return new Entity(verticalFaces, top, bottom);
         }
+
+        #endregion
+
+        #region Private methods
 
         private List<IPoint> GetApproximatedCircle(float h, int n, float r, float deltaX, float deltaY, float deltaZ)
         {
@@ -82,16 +88,18 @@ namespace ProjectAlgorithm.Factories
 
             faces.Add(
                 new Face(
-                    new List<IPoint>
-                    {
-                        top.ElementAt(count - 1),
-                        bottom.ElementAt(count - 1),
-                        bottom.ElementAt(0),
-                        top.ElementAt(0)
-                    }, color)
-                { ReverseNormal = reverseNormal});
+                        new List<IPoint>
+                        {
+                            top.ElementAt(count - 1),
+                            bottom.ElementAt(count - 1),
+                            bottom.ElementAt(0),
+                            top.ElementAt(0)
+                        }, color)
+                    { ReverseNormal = reverseNormal});
 
             return faces;
         }
+
+        #endregion
     }
 }
