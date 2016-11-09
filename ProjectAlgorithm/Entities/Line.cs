@@ -11,7 +11,6 @@ namespace ProjectAlgorithm.Entities
 
         private IPoint first;
         private IPoint second;
-        private List<IPoint> points;
 
         #endregion
 
@@ -28,12 +27,7 @@ namespace ProjectAlgorithm.Entities
             get { return second; }
             set { second = value; }
         }
-
-        public IEnumerable<IPoint> Points
-        {
-            get { return new[] { first, second }; }
-        }
-
+        
         public Color Color { get; set; } = Color.Black;
 
         public bool IsHidden { get; set; }

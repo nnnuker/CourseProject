@@ -20,7 +20,7 @@ namespace ProjectAlgorithm.Entities
         #region Properties
 
         public IList<IPoint> Points { get { return points; } }
-        public IList<ILine> Lines { get { return lines; } }
+        public IList<ILine> Lines { get { return GetLines(); } }
 
         public IEnumerable<float> Normal { get { return GetNormal(); } }
         public IEnumerable<float> Center { get { return GetCenter(); } }
