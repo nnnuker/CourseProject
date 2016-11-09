@@ -18,6 +18,10 @@ namespace ProjectAlgorithm.HiddenLines
                     {
                         face.IsHidden = true;
                     }
+                    else
+                    {
+                        face.IsHidden = false;
+                    }
                 }
             }
 
