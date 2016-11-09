@@ -160,13 +160,15 @@ namespace ProjectAlgorithm.Transformations
             //                                        { 0, 0, 0, 0 }
             //});
 
-            var lines = compositeObject.GetLines();
+            var points = compositeObject.GetPoints();
+            var param = 0.1f;
 
-            foreach (var line in lines)
-            {
-                line.First = CentralPoints(line.First, distance);
-
-                line.Second = CentralPoints(line.Second, distance);
+            foreach (var point in points)
+            {    
+                point.Z = Math.Abs(point.Z) <= 0.1f ? param : point.Z;
+                point.X = point.X * distance / point.Z;
+                point.Y = point.Y * distance / point.Z;
+                point.Z = distance;
             }
 
             return compositeObject;
@@ -238,26 +240,17 @@ namespace ProjectAlgorithm.Transformations
 
         #region Private
 
-        private IPoint CentralPoints(IPoint point, float distance)
-        {
-            var point1 = new Point();
-            var param = 0.1f;
-            point1.Z = Math.Abs(point.Z) <= 0.1f ? param : point.Z;
-            point1.X = point.X * distance / point1.Z;
-            point1.Y = point.Y * distance / point1.Z;
-            point1.Z = distance;
-
-            return point1;
-        }
-
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
         {
-            var lines = compositeObject.GetLines();
+            var points = compositeObject.GetPoints();
 
-            foreach (var line in lines)
+            foreach (var point in points)
             {
-                line.First = PointOutVector(Vector(line.First) * matrix);
-                line.Second = PointOutVector(Vector(line.Second) * matrix);
+                var p = PointOutVector(Vector(point) * matrix);
+
+                point.X = p.X;
+                point.Y = p.Y;
+                point.Z = p.Z;
             }
 
             return compositeObject;
