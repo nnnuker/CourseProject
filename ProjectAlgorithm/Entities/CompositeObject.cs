@@ -48,6 +48,34 @@ namespace ProjectAlgorithm.Entities
 
         #region Public methods
 
+        public IList<IFace> GetFaces()
+        {
+            return entities.Aggregate(new List<IFace>(), (list, entity) =>
+            {
+                list.AddRange(entity.Faces);
+                return list;
+            });
+        }
+
+        public IList<IPoint> GetPoints()
+        {
+            var points = new List<IPoint>();
+
+            foreach (var entity in entities)
+            {
+                foreach (var face in entity.Faces)
+                {
+                    points.AddRange(face.Points);
+                }
+            }
+
+            points = points.Distinct().ToList();
+
+            //OnChangeMethod(new UpdateObjectEventArgs(lines));
+
+            return points;
+        }
+
         public IList<ILine> GetLines()
         {
             var lines = new List<ILine>();
