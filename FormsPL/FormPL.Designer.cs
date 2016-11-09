@@ -94,7 +94,8 @@
             this.label20 = new System.Windows.Forms.Label();
             this.angleAlpha = new System.Windows.Forms.NumericUpDown();
             this.drawingBox = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.hideLinesCheck = new System.Windows.Forms.CheckBox();
+            this.fillFacesCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -1104,15 +1105,33 @@
             this.drawingBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormPL_MouseMove);
             this.drawingBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FormPL_MouseUp);
             // 
-            // button1
+            // hideLinesCheck
             // 
-            this.button1.Location = new System.Drawing.Point(763, 467);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 49;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.hideLinesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.hideLinesCheck.AutoSize = true;
+            this.hideLinesCheck.Checked = true;
+            this.hideLinesCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.hideLinesCheck.Location = new System.Drawing.Point(696, 472);
+            this.hideLinesCheck.Name = "hideLinesCheck";
+            this.hideLinesCheck.Size = new System.Drawing.Size(78, 17);
+            this.hideLinesCheck.TabIndex = 49;
+            this.hideLinesCheck.Text = "Hide lines?";
+            this.hideLinesCheck.UseVisualStyleBackColor = true;
+            this.hideLinesCheck.CheckedChanged += new System.EventHandler(this.hideLinesCheck_CheckedChanged);
+            // 
+            // fillFacesCheck
+            // 
+            this.fillFacesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.fillFacesCheck.AutoSize = true;
+            this.fillFacesCheck.Checked = true;
+            this.fillFacesCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fillFacesCheck.Location = new System.Drawing.Point(696, 496);
+            this.fillFacesCheck.Name = "fillFacesCheck";
+            this.fillFacesCheck.Size = new System.Drawing.Size(73, 17);
+            this.fillFacesCheck.TabIndex = 50;
+            this.fillFacesCheck.Text = "Fill faces?";
+            this.fillFacesCheck.UseVisualStyleBackColor = true;
+            this.fillFacesCheck.CheckedChanged += new System.EventHandler(this.fillFacesCheck_CheckedChanged);
             // 
             // FormPL
             // 
@@ -1120,7 +1139,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(850, 545);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.fillFacesCheck);
+            this.Controls.Add(this.hideLinesCheck);
             this.Controls.Add(this.drawingBox);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormPL";
@@ -1159,6 +1179,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drawingBox)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1230,7 +1251,8 @@
         private System.Windows.Forms.Button viewButton;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown ro;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox hideLinesCheck;
+        private System.Windows.Forms.CheckBox fillFacesCheck;
     }
 }
 
