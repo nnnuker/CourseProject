@@ -127,9 +127,9 @@ namespace ProjectAlgorithm.Transformations
             //});
 
             var vMatrix = DenseMatrix.OfArray(new[,] {
-                { (float)Math.Cos(tetaAngle), (float)Math.Cos(fiAngle)*(float)Math.Sin(tetaAngle), (float)Math.Sin(fiAngle)*(float)Math.Sin(tetaAngle), 0},
-                { (float)Math.Sin(tetaAngle), (float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), (float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
-                { 0, (float)Math.Sin(fiAngle), (float)Math.Cos(fiAngle), 0},
+                { -(float)Math.Sin(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
+                { (float)Math.Cos(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Sin(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Sin(tetaAngle), 0},
+                { 0, (float)Math.Sin(fiAngle), -(float)Math.Cos(fiAngle), 0},
                 { 0, 0, ro, 1 }
             });
             //var vMatrix = tMatrix * rzMatrix * rxMatrix * sMatrix;

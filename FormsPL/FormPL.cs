@@ -165,9 +165,9 @@ namespace FormsPL
 
         #region Transformations
 
-        private void TransformObject(float x, float y, float z, Func<ICompositeObject, float, float, float, ICompositeObject> Action)
+        private void TransformObject(float x, float y, float z, Func<ICompositeObject, float, float, float, ICompositeObject> Func)
         {
-            compositeObject = Action(compositeObject, x, y, z);
+            compositeObject = Func(compositeObject, x, y, z);
             currentComposite = compositeObject.Clone() as ICompositeObject;
 
             viewPoint = viewPoints["xOy"];
@@ -373,7 +373,10 @@ namespace FormsPL
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            Draw(currentComposite, deltaX, deltaY, DrawAction);
+            if (drawingBox.Width != 0 && drawingBox.Height != 0)
+            {
+                Draw(currentComposite, deltaX, deltaY, DrawAction);
+            }
         }
 
         private void distance_ValueChanged(object sender, EventArgs e)
