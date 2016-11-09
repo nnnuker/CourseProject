@@ -7,9 +7,6 @@ namespace ProjectAlgorithm.Interfaces.Entities
     public interface ILine : IColorable, IHiddenable, ICloneable
     {
         IPoint First { get; set; }
-
         IPoint Second { get; set; }
-
-        IEnumerable<IPoint> Points { get; }
     }
 }
