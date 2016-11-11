@@ -22,7 +22,8 @@ namespace FormsPL
         private float deltaY;
         private bool flag;
         private Point current;
-        private readonly Pen axisPen = new Pen(Color.Coral);
+        private readonly Pen axisPenX = new Pen(Color.Coral);
+        private readonly Pen axisPenY = new Pen(Color.Coral);
         private readonly int axisPadding = 5;
         private Action<Graphics, Pen, Brush, IFace, float, float> DrawAction;
         private bool hideLines = true;
@@ -42,7 +43,7 @@ namespace FormsPL
 
         public FormPL()
         {
-            InitializeAxisPen();
+            InitializeAxisPen(false, false);
 
             InitializeComponent();
 
@@ -50,9 +51,31 @@ namespace FormsPL
             viewPoint = viewPoints["xOy"];
         }
 
-        private void InitializeAxisPen()
+        private void InitializeAxisPen(bool invertX, bool invertY)
         {
-            axisPen.CustomEndCap = new AdjustableArrowCap(5, 5);
+            var customEndCap = new AdjustableArrowCap(5, 5);
+
+            if (invertX)
+            {
+                axisPenX.CustomStartCap = customEndCap;
+                axisPenX.EndCap = LineCap.Flat;
+            }
+            else
+            {
+                axisPenX.CustomEndCap = customEndCap;
+                axisPenX.StartCap = LineCap.Flat;
+            }
+
+            if (invertY)
+            {
+                axisPenY.CustomStartCap = customEndCap;
+                axisPenY.EndCap = LineCap.Flat;
+            }
+            else
+            {
+                axisPenY.CustomEndCap = customEndCap;
+                axisPenY.StartCap = LineCap.Flat;
+            }
         }
 
         #endregion
@@ -63,13 +86,15 @@ namespace FormsPL
         {
             var factory = new EntitiesFactory();
 
-            var entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, Color.Blue, true);
-            var holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, Color.Red, false);
+            var entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, Color.Blue, false);
+            var holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, Color.Red, true);
 
-            var compositeFactory = new CompositeFactory(factory, Color.LawnGreen, Color.Orange);
+            var compositeFactory = new CompositeFactory(factory, Color.Blue, Color.Blue);
 
             compositeObject = compositeFactory.GetComposite(entity, holeEntity);
             currentComposite = compositeObject.Clone() as ICompositeObject;
+
+            viewPoint = viewPoints["xOy"];
 
             Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
         }
@@ -108,20 +133,13 @@ namespace FormsPL
                     }
                 }
             }
-
-            //foreach (var line in composite.GetLines())
-            //{
-            //    if (line.IsHidden) continue;
-            //    pen.Color = line.Color;
-            //    DrawAction(graphics, pen, line, this.deltaX, this.deltaY);
-            //}
         }
 
         private void DrawAxis(Graphics graphics, float deltaX, float deltaY)
         {
-            graphics.DrawLine(axisPen, deltaX, drawingBox.Height - axisPadding, deltaX, axisPadding);
+            graphics.DrawLine(axisPenY, deltaX, drawingBox.Height - axisPadding, deltaX, axisPadding);
 
-            graphics.DrawLine(axisPen, axisPadding, deltaY, drawingBox.Width - axisPadding, deltaY);
+            graphics.DrawLine(axisPenX, axisPadding, deltaY, drawingBox.Width - axisPadding, deltaY);
         }
 
         private void CoordinatesXY(Graphics graphics, Pen pen, Brush brush, IFace face, float deltaX, float deltaY)
@@ -142,7 +160,7 @@ namespace FormsPL
 
         private void CoordinatesXZ(Graphics graphics, Pen pen, Brush brush, IFace face, float deltaX, float deltaY)
         {
-            var points = face.Points.Select(p => new PointF(p.X + deltaX, -p.Z + deltaY)).ToArray();
+            var points = face.Points.Select(p => new PointF(p.X + deltaX, p.Z + deltaY)).ToArray();
             DrawPolygons(graphics, pen, brush, points);
 
             //graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Z + deltaY, line.Second.X + deltaX, -line.Second.Z + deltaY);
@@ -165,14 +183,12 @@ namespace FormsPL
 
         #region Transformations
 
-        private void TransformObject(float x, float y, float z, Func<ICompositeObject, float, float, float, ICompositeObject> Action)
+        private void TransformObject(float x, float y, float z, Func<ICompositeObject, float, float, float, ICompositeObject> Func)
         {
-            compositeObject = Action(compositeObject, x, y, z);
+            compositeObject = Func(compositeObject, x, y, z);
             currentComposite = compositeObject.Clone() as ICompositeObject;
 
-            viewPoint = viewPoints["xOy"];
-
-            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+            Draw(compositeObject, deltaX, deltaY, DrawAction);
         }
 
         private void moveButton_Click(object sender, EventArgs e)
@@ -288,6 +304,8 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.OrthogonalProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
 
+            InitializeAxisPen(false, false);
+
             viewPoint = viewPoints["xOy"];
 
             Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
@@ -297,6 +315,8 @@ namespace FormsPL
         {
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.ProjectionX(currentComposite);
+
+            InitializeAxisPen(false, false);
 
             viewPoint = viewPoints["yOz"];
 
@@ -308,6 +328,8 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.ProjectionY(currentComposite);
 
+            InitializeAxisPen(false, true);
+
             viewPoint = viewPoints["xOz"];
 
             Draw(currentComposite, deltaX, deltaY, CoordinatesXZ);
@@ -317,6 +339,8 @@ namespace FormsPL
         {
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.ProjectionZ(currentComposite);
+
+            InitializeAxisPen(false, false);
 
             viewPoint = viewPoints["xOy"];
 
@@ -328,6 +352,8 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
 
+            InitializeAxisPen(false, false);
+
             viewPoint = viewPoints["xOy"];
 
             Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
@@ -337,6 +363,8 @@ namespace FormsPL
         {
             currentComposite = compositeObject.Clone() as ICompositeObject;
             currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
+
+            InitializeAxisPen(false, false);
 
             viewPoint = viewPoints["xOy"];
 
@@ -349,6 +377,7 @@ namespace FormsPL
             currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value,
                 (float)ro.Value, (float)distance.Value);
 
+            InitializeAxisPen(false, false);
             
             viewPoint = new ProjectAlgorithm.Entities.Point(
                 (float)
@@ -373,7 +402,10 @@ namespace FormsPL
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
-            Draw(currentComposite, deltaX, deltaY, DrawAction);
+            if (drawingBox.Width != 0 && drawingBox.Height != 0)
+            {
+                Draw(currentComposite, deltaX, deltaY, DrawAction);
+            }
         }
 
         private void distance_ValueChanged(object sender, EventArgs e)
