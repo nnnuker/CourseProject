@@ -14,14 +14,7 @@ namespace ProjectAlgorithm.HiddenLines
             {
                 foreach (var face in compositeEntity.Faces)
                 {
-                    if (IsHidden(face, viewPoint))
-                    {
-                        face.IsHidden = true;
-                    }
-                    else
-                    {
-                        face.IsHidden = false;
-                    }
+                    face.IsHidden = IsHidden(face, viewPoint);
                 }
             }
 
@@ -35,7 +28,7 @@ namespace ProjectAlgorithm.HiddenLines
 
             var cos = GetCos(a, b);
 
-            return cos < 0;
+            return cos > 0;
         }
 
         private float GetCos(IEnumerable<float> a, IEnumerable<float> b)
