@@ -36,8 +36,8 @@ namespace ProjectAlgorithm.Factories
 
         public ICompositeObject GetComposite(IEntity first, IEntity hole)
         {
-            var top = entityFactory.CreateEntity(first.Top, hole.Top, color, false);
-            var bottom = entityFactory.CreateEntity(first.Bottom, hole.Bottom, colorBottom, true);
+            var top = entityFactory.CreateEntity(first.Top, hole.Top, color, true);
+            var bottom = entityFactory.CreateEntity(first.Bottom, hole.Bottom, colorBottom, false);
 
             return new CompositeObject(new[] { hole, first, top, bottom});
         }
