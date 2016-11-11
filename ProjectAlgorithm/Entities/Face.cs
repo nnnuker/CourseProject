@@ -25,7 +25,7 @@ namespace ProjectAlgorithm.Entities
         public IEnumerable<float> Normal { get { return GetNormal(); } }
         public IEnumerable<float> Center { get { return GetCenter(); } }
 
-        public Color Color { get; set; } = Color.Black;
+        public Color Color { get; set; } 
 
         public bool IsHidden { get; set; }
 
@@ -39,6 +39,8 @@ namespace ProjectAlgorithm.Entities
         {
             lines = new List<ILine>();
             points = new List<IPoint>();
+
+            Color = Color.Black;
         }
 
         public Face(IEnumerable<IPoint> points)
@@ -48,6 +50,7 @@ namespace ProjectAlgorithm.Entities
             this.points = points.ToList();
 
             lines = GetLines();
+            Color = Color.Black;
         }
 
         public Face(IEnumerable<IPoint> points, Color color)

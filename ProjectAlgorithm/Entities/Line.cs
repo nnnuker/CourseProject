@@ -28,7 +28,7 @@ namespace ProjectAlgorithm.Entities
             set { second = value; }
         }
         
-        public Color Color { get; set; } = Color.Black;
+        public Color Color { get; set; } 
 
         public bool IsHidden { get; set; }
 
@@ -39,6 +39,8 @@ namespace ProjectAlgorithm.Entities
         public Line()
         {
             first = second = new Point();
+
+            Color = Color.Black;
         }
 
         public Line(IPoint first, IPoint second)
@@ -48,6 +50,8 @@ namespace ProjectAlgorithm.Entities
 
             this.first = first;
             this.second = second;
+
+            Color = Color.Black;
         }
 
         public Line(IPoint first, IPoint second, Color color, bool isHidden) : this(first, second)
