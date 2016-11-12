@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 using ProjectAlgorithm.Factories;
+using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
@@ -378,15 +379,9 @@ namespace FormsPL
                 (float)ro.Value, (float)distance.Value);
 
             InitializeAxisPen(false, false);
-            
-            viewPoint = new ProjectAlgorithm.Entities.Point(
-                (float)
-                ((float) ro.Value*Math.Sin((float) angleFiView.Value*(Math.PI/180.0))*
-                 Math.Cos((float) angleTetaView.Value*(Math.PI/180.0))),
-                (float)
-                ((float) ro.Value*Math.Sin((float) angleFiView.Value*(Math.PI/180.0))*
-                 Math.Sin((float) angleTetaView.Value*(Math.PI/180.0))),
-                (float) ((float) ro.Value*Math.Cos((float) angleFiView.Value*(Math.PI/180.0))));
+
+            viewPoint = ViewPointsHelper.GetViewPoint((float) angleFiView.Value, (float) angleTetaView.Value,
+                (float) ro.Value);
 
             Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
         }

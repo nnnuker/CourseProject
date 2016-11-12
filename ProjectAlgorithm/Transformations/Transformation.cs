@@ -4,6 +4,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using ProjectAlgorithm.Entities;
 using ProjectAlgorithm.HiddenLines;
+using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.HiddenLines;
 using ProjectAlgorithm.Interfaces.Transformations;
@@ -44,9 +45,9 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject RotateObject(ICompositeObject compositeObject, float angleX, float angleY, float angleZ)
         {
-            var angleRx = RadiansFromAngle(angleX);
-            var angleRy = RadiansFromAngle(angleY);
-            var angleRz = RadiansFromAngle(angleZ);
+            var angleRx = MathHelper.RadiansFromAngle(angleX);
+            var angleRy = MathHelper.RadiansFromAngle(angleY);
+            var angleRz = MathHelper.RadiansFromAngle(angleZ);
 
             var rotateZ = DenseMatrix.OfArray(new[,] {
                 { (float)Math.Cos(angleRz), (float)Math.Sin(angleRz), 0, 0},
@@ -91,8 +92,8 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro, float distance)
         {
-            var fiAngle = RadiansFromAngle(fi);
-            var tetaAngle = RadiansFromAngle(teta);
+            var fiAngle = MathHelper.RadiansFromAngle(fi);
+            var tetaAngle = MathHelper.RadiansFromAngle(teta);
 
             //var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
             //var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
@@ -139,7 +140,7 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
         {
-            var angleAlpha = RadiansFromAngle(alpha);
+            var angleAlpha = MathHelper.RadiansFromAngle(alpha);
             
             var projection = DenseMatrix.OfArray(new[,] {
                 { 1, 0, 0, 0},
@@ -178,8 +179,8 @@ namespace ProjectAlgorithm.Transformations
 
         public ICompositeObject OrthogonalProjection(ICompositeObject compositeObject, float psi, float fi)
         {
-            var anglePsi = RadiansFromAngle(psi);
-            var angleFi = RadiansFromAngle(fi);
+            var anglePsi = MathHelper.RadiansFromAngle(psi);
+            var angleFi = MathHelper.RadiansFromAngle(fi);
 
             var projection = DenseMatrix.OfArray(new[,] {
                 { (float)Math.Cos(anglePsi), (float)Math.Sin(anglePsi)*(float)Math.Sin(angleFi), 0, 0},
@@ -254,11 +255,6 @@ namespace ProjectAlgorithm.Transformations
             }
 
             return compositeObject;
-        }
-
-        private static double RadiansFromAngle(double angle)
-        {
-            return (angle * (Math.PI / 180.0));
         }
 
         private static Vector<float> Vector(IPoint point)

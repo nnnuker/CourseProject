@@ -52,6 +52,8 @@
     <Compile Include="Entities\Face.cs" />
     <Compile Include="Entities\Line.cs" />
     <Compile Include="Entities\Point.cs" />
+    <Compile Include="Infrastructure\MathHelper.cs" />
+    <Compile Include="Infrastructure\ViewPointsHelper.cs" />
     <Compile Include="Interfaces\HiddenLines\IHiddenable.cs" />
     <Compile Include="Interfaces\HiddenLines\IHiddenLines.cs" />
     <Compile Include="HiddenLines\RobertsAlgorithm.cs" />
