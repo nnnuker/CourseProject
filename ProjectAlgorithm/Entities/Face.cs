@@ -138,14 +138,14 @@ namespace ProjectAlgorithm.Entities
 
         private IEnumerable<float> GetNormal()
         {
-            if (Lines.Count < 3)
+            if (Points.Count < 3)
             {
                 return null;
             }
 
-            var first = Lines[0].First;
-            var second = Lines[1].First;
-            var third = Lines[2].First;
+            var first = Points[0];
+            var second = Points[1];
+            var third = Points[2];
 
             var x = first.Y * second.Z + second.Y * third.Z + third.Y * first.Z - 
                     second.Y * first.Z - third.Y * second.Z - first.Y * third.Z;
