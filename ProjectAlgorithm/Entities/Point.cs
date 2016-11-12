@@ -1,9 +1,10 @@
 ﻿using System;
-using ProjectAlgorithm.Interfaces;
+using System.Collections.Generic;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {
-    public struct Point : IPoint
+    public class Point : IPoint
     {
         #region Fields
 
@@ -36,9 +37,15 @@ namespace ProjectAlgorithm.Entities
             set { z = value; }
         }
 
+        public IEnumerable<float> Coordinates { get { return new[] {x, y, z}; } }
+
         #endregion
 
         #region Constructor
+
+        public Point()
+        {
+        }
 
         public Point(float x, float y, float z)
         {
@@ -49,9 +56,25 @@ namespace ProjectAlgorithm.Entities
 
         #endregion
 
+        #region Public methods
+
         public object Clone()
         {
             return new Point(x, y, z);
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is Point))
+        //    {
+        //        return false;
+        //    }
+
+        //    var point = (Point)obj;
+
+        //    return x.Equals(point.x) && y.Equals(y) && z.Equals(z);
+        //}
+
+        #endregion
     }
 }

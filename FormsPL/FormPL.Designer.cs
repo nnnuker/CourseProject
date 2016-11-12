@@ -79,6 +79,13 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.label25 = new System.Windows.Forms.Label();
+            this.ro = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.angleTetaView = new System.Windows.Forms.NumericUpDown();
+            this.viewButton = new System.Windows.Forms.Button();
+            this.label23 = new System.Windows.Forms.Label();
+            this.angleFiView = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.distance = new System.Windows.Forms.NumericUpDown();
             this.centralButton = new System.Windows.Forms.Button();
@@ -87,13 +94,8 @@
             this.label20 = new System.Windows.Forms.Label();
             this.angleAlpha = new System.Windows.Forms.NumericUpDown();
             this.drawingBox = new System.Windows.Forms.PictureBox();
-            this.viewButton = new System.Windows.Forms.Button();
-            this.angleFiView = new System.Windows.Forms.NumericUpDown();
-            this.label23 = new System.Windows.Forms.Label();
-            this.angleTetaView = new System.Windows.Forms.NumericUpDown();
-            this.label24 = new System.Windows.Forms.Label();
-            this.ro = new System.Windows.Forms.NumericUpDown();
-            this.label25 = new System.Windows.Forms.Label();
+            this.hideLinesCheck = new System.Windows.Forms.CheckBox();
+            this.fillFacesCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -117,13 +119,13 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleTetaView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleFiView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.distance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.drawingBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.angleFiView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.angleTetaView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ro)).BeginInit();
             this.SuspendLayout();
             // 
             // moveButton
@@ -299,6 +301,7 @@
             this.moveX.Name = "moveX";
             this.moveX.Size = new System.Drawing.Size(75, 20);
             this.moveX.TabIndex = 12;
+            this.moveX.ValueChanged += new System.EventHandler(this.moveX_ValueChanged);
             // 
             // label5
             // 
@@ -327,6 +330,7 @@
             this.moveY.Name = "moveY";
             this.moveY.Size = new System.Drawing.Size(75, 20);
             this.moveY.TabIndex = 14;
+            this.moveY.ValueChanged += new System.EventHandler(this.moveY_ValueChanged);
             // 
             // label6
             // 
@@ -355,6 +359,7 @@
             this.moveZ.Name = "moveZ";
             this.moveZ.Size = new System.Drawing.Size(75, 20);
             this.moveZ.TabIndex = 16;
+            this.moveZ.ValueChanged += new System.EventHandler(this.moveZ_ValueChanged);
             // 
             // label7
             // 
@@ -383,6 +388,7 @@
             this.rotateX.Name = "rotateX";
             this.rotateX.Size = new System.Drawing.Size(75, 20);
             this.rotateX.TabIndex = 18;
+            this.rotateX.ValueChanged += new System.EventHandler(this.rotateX_ValueChanged);
             // 
             // rotateY
             // 
@@ -401,6 +407,7 @@
             this.rotateY.Name = "rotateY";
             this.rotateY.Size = new System.Drawing.Size(75, 20);
             this.rotateY.TabIndex = 19;
+            this.rotateY.ValueChanged += new System.EventHandler(this.rotateY_ValueChanged);
             // 
             // rotateZ
             // 
@@ -419,6 +426,7 @@
             this.rotateZ.Name = "rotateZ";
             this.rotateZ.Size = new System.Drawing.Size(75, 20);
             this.rotateZ.TabIndex = 20;
+            this.rotateZ.ValueChanged += new System.EventHandler(this.rotateZ_ValueChanged);
             // 
             // label8
             // 
@@ -473,6 +481,7 @@
             0,
             0,
             0});
+            this.scaleX.ValueChanged += new System.EventHandler(this.scaleX_ValueChanged);
             // 
             // scaleY
             // 
@@ -497,6 +506,7 @@
             0,
             0,
             0});
+            this.scaleY.ValueChanged += new System.EventHandler(this.scaleY_ValueChanged);
             // 
             // scaleZ
             // 
@@ -521,6 +531,7 @@
             0,
             0,
             0});
+            this.scaleZ.ValueChanged += new System.EventHandler(this.scaleZ_ValueChanged);
             // 
             // label11
             // 
@@ -818,7 +829,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(134, 400);
+            this.tabPage1.Size = new System.Drawing.Size(134, 427);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Drawing";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -849,7 +860,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(134, 400);
+            this.tabPage2.Size = new System.Drawing.Size(134, 427);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Transformations";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -885,6 +896,94 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Projections";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(37, 399);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(13, 13);
+            this.label25.TabIndex = 60;
+            this.label25.Text = "ρ";
+            // 
+            // ro
+            // 
+            this.ro.Location = new System.Drawing.Point(56, 399);
+            this.ro.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.ro.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.ro.Name = "ro";
+            this.ro.Size = new System.Drawing.Size(76, 20);
+            this.ro.TabIndex = 59;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(36, 372);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(13, 13);
+            this.label24.TabIndex = 58;
+            this.label24.Text = "θ";
+            // 
+            // angleTetaView
+            // 
+            this.angleTetaView.Location = new System.Drawing.Point(56, 372);
+            this.angleTetaView.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.angleTetaView.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
+            this.angleTetaView.Name = "angleTetaView";
+            this.angleTetaView.Size = new System.Drawing.Size(75, 20);
+            this.angleTetaView.TabIndex = 57;
+            // 
+            // viewButton
+            // 
+            this.viewButton.Location = new System.Drawing.Point(56, 290);
+            this.viewButton.Name = "viewButton";
+            this.viewButton.Size = new System.Drawing.Size(75, 23);
+            this.viewButton.TabIndex = 54;
+            this.viewButton.Text = "View";
+            this.viewButton.UseVisualStyleBackColor = true;
+            this.viewButton.Click += new System.EventHandler(this.viewButton_Click);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(34, 345);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(15, 13);
+            this.label23.TabIndex = 56;
+            this.label23.Text = "φ";
+            // 
+            // angleFiView
+            // 
+            this.angleFiView.Location = new System.Drawing.Point(56, 345);
+            this.angleFiView.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.angleFiView.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
+            this.angleFiView.Name = "angleFiView";
+            this.angleFiView.Size = new System.Drawing.Size(75, 20);
+            this.angleFiView.TabIndex = 55;
             // 
             // label22
             // 
@@ -1006,93 +1105,33 @@
             this.drawingBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.FormPL_MouseMove);
             this.drawingBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.FormPL_MouseUp);
             // 
-            // viewButton
+            // hideLinesCheck
             // 
-            this.viewButton.Location = new System.Drawing.Point(56, 290);
-            this.viewButton.Name = "viewButton";
-            this.viewButton.Size = new System.Drawing.Size(75, 23);
-            this.viewButton.TabIndex = 54;
-            this.viewButton.Text = "View";
-            this.viewButton.UseVisualStyleBackColor = true;
-            this.viewButton.Click += new System.EventHandler(this.viewButton_Click);
+            this.hideLinesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.hideLinesCheck.AutoSize = true;
+            this.hideLinesCheck.Checked = true;
+            this.hideLinesCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.hideLinesCheck.Location = new System.Drawing.Point(696, 472);
+            this.hideLinesCheck.Name = "hideLinesCheck";
+            this.hideLinesCheck.Size = new System.Drawing.Size(78, 17);
+            this.hideLinesCheck.TabIndex = 49;
+            this.hideLinesCheck.Text = "Hide lines?";
+            this.hideLinesCheck.UseVisualStyleBackColor = true;
+            this.hideLinesCheck.CheckedChanged += new System.EventHandler(this.hideLinesCheck_CheckedChanged);
             // 
-            // angleFiView
+            // fillFacesCheck
             // 
-            this.angleFiView.Location = new System.Drawing.Point(56, 345);
-            this.angleFiView.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.angleFiView.Minimum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            -2147483648});
-            this.angleFiView.Name = "angleFiView";
-            this.angleFiView.Size = new System.Drawing.Size(75, 20);
-            this.angleFiView.TabIndex = 55;
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(34, 345);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(15, 13);
-            this.label23.TabIndex = 56;
-            this.label23.Text = "φ";
-            // 
-            // angleTetaView
-            // 
-            this.angleTetaView.Location = new System.Drawing.Point(56, 372);
-            this.angleTetaView.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.angleTetaView.Minimum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            -2147483648});
-            this.angleTetaView.Name = "angleTetaView";
-            this.angleTetaView.Size = new System.Drawing.Size(75, 20);
-            this.angleTetaView.TabIndex = 57;
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(36, 372);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(13, 13);
-            this.label24.TabIndex = 58;
-            this.label24.Text = "θ";
-            // 
-            // ro
-            // 
-            this.ro.Location = new System.Drawing.Point(56, 399);
-            this.ro.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.ro.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
-            this.ro.Name = "ro";
-            this.ro.Size = new System.Drawing.Size(76, 20);
-            this.ro.TabIndex = 59;
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(37, 399);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(13, 13);
-            this.label25.TabIndex = 60;
-            this.label25.Text = "ρ";
+            this.fillFacesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.fillFacesCheck.AutoSize = true;
+            this.fillFacesCheck.Checked = true;
+            this.fillFacesCheck.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fillFacesCheck.Location = new System.Drawing.Point(696, 496);
+            this.fillFacesCheck.Name = "fillFacesCheck";
+            this.fillFacesCheck.Size = new System.Drawing.Size(73, 17);
+            this.fillFacesCheck.TabIndex = 50;
+            this.fillFacesCheck.Text = "Fill faces?";
+            this.fillFacesCheck.UseVisualStyleBackColor = true;
+            this.fillFacesCheck.CheckedChanged += new System.EventHandler(this.fillFacesCheck_CheckedChanged);
             // 
             // FormPL
             // 
@@ -1100,6 +1139,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(850, 545);
+            this.Controls.Add(this.fillFacesCheck);
+            this.Controls.Add(this.hideLinesCheck);
             this.Controls.Add(this.drawingBox);
             this.Controls.Add(this.tabControl1);
             this.Name = "FormPL";
@@ -1130,14 +1171,15 @@
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleTetaView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.angleFiView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.distance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drawingBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.angleFiView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.angleTetaView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.ro)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1209,6 +1251,8 @@
         private System.Windows.Forms.Button viewButton;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.NumericUpDown ro;
+        private System.Windows.Forms.CheckBox hideLinesCheck;
+        private System.Windows.Forms.CheckBox fillFacesCheck;
     }
 }
 

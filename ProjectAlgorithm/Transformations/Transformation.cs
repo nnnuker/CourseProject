@@ -3,12 +3,32 @@ using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Single;
 using ProjectAlgorithm.Entities;
-using ProjectAlgorithm.Interfaces;
+using ProjectAlgorithm.HiddenLines;
+using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.HiddenLines;
+using ProjectAlgorithm.Interfaces.Transformations;
 
 namespace ProjectAlgorithm.Transformations
 {
-    public class Transformation : ITransformation
+    public class Transformation : ITransformation, IProjections, IHiddenLines
     {
+        private readonly IHiddenLines hiddenLines;
+
+        public Transformation()
+        {
+            hiddenLines = new RobertsAlgorithm();
+        }
+
+        public Transformation(IHiddenLines hiddenLines)
+        {
+            if (hiddenLines == null)
+            {
+                throw new ArgumentNullException("hiddenLines");
+            }
+
+            this.hiddenLines = hiddenLines;
+        }
+
         #region Transformations
 
         public ICompositeObject ScaleObject(ICompositeObject compositeObject, float scaleX, float scaleY, float scaleZ)
@@ -74,37 +94,37 @@ namespace ProjectAlgorithm.Transformations
             var fiAngle = RadiansFromAngle(fi);
             var tetaAngle = RadiansFromAngle(teta);
 
-            var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
-            var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
-            var zE = (float)(ro * Math.Cos(fiAngle));
+            //var xE = (float)(ro * Math.Sin(fiAngle) * Math.Cos(tetaAngle));
+            //var yE = (float)(ro * Math.Sin(fiAngle) * Math.Sin(tetaAngle));
+            //var zE = (float)(ro * Math.Cos(fiAngle));
 
-            var tMatrix = DenseMatrix.OfArray(new[,] {
-                { 1, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { 0, 0, 1, 0},
-                { -xE, -yE, -zE, 1 }
-            });
+            //var tMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1, 0, 0, 0},
+            //    { 0, 1, 0, 0},
+            //    { 0, 0, 1, 0},
+            //    { -xE, -yE, -zE, 1 }
+            //});
 
-            var rzMatrix = DenseMatrix.OfArray(new[,] {
-                { (float)Math.Cos(Math.PI/2 - tetaAngle), (float)Math.Sin(Math.PI/2 - tetaAngle), 0, 0},
-                { -(float)Math.Sin(Math.PI/2 - tetaAngle), (float)Math.Cos(Math.PI/2 - tetaAngle), 0, 0},
-                { 0, 0, 1, 0},
-                { 0, 0, 0, 1 }
-            });
+            //var rzMatrix = DenseMatrix.OfArray(new[,] {
+            //    { (float)Math.Cos(Math.PI/2 - tetaAngle), (float)Math.Sin(Math.PI/2 - tetaAngle), 0, 0},
+            //    { -(float)Math.Sin(Math.PI/2 - tetaAngle), (float)Math.Cos(Math.PI/2 - tetaAngle), 0, 0},
+            //    { 0, 0, 1, 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
-            var rxMatrix = DenseMatrix.OfArray(new[,] {
-                { 1, 0, 0, 0},
-                { 0, (float)Math.Cos(fiAngle - Math.PI), (float)Math.Sin(fiAngle - Math.PI), 0},
-                { 0, -(float)Math.Sin(fiAngle - Math.PI), (float)Math.Cos(fiAngle - Math.PI), 0},
-                { 0, 0, 0, 1 }
-            });
+            //var rxMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1, 0, 0, 0},
+            //    { 0, (float)Math.Cos(fiAngle - Math.PI), (float)Math.Sin(fiAngle - Math.PI), 0},
+            //    { 0, -(float)Math.Sin(fiAngle - Math.PI), (float)Math.Cos(fiAngle - Math.PI), 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
-            var sMatrix = DenseMatrix.OfArray(new[,] {
-                { 1.0f, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { 0, 0, -1, 0},
-                { 0, 0, 0, 1 }
-            });
+            //var sMatrix = DenseMatrix.OfArray(new[,] {
+            //    { 1.0f, 0, 0, 0},
+            //    { 0, 1, 0, 0},
+            //    { 0, 0, -1, 0},
+            //    { 0, 0, 0, 1 }
+            //});
 
             var vMatrix = DenseMatrix.OfArray(new[,] {
                 { -(float)Math.Sin(tetaAngle), -(float)Math.Cos(fiAngle)*(float)Math.Cos(tetaAngle), -(float)Math.Sin(fiAngle)*(float)Math.Cos(tetaAngle), 0},
@@ -124,7 +144,7 @@ namespace ProjectAlgorithm.Transformations
             var projection = DenseMatrix.OfArray(new[,] {
                 { 1, 0, 0, 0},
                 { 0, 1, 0, 0},
-                { l*(float)Math.Cos(angleAlpha), l*(float)Math.Sin(angleAlpha), 0, 0},
+                { -l*(float)Math.Cos(angleAlpha), -l*(float)Math.Sin(angleAlpha), 0, 0},
                 { 0, 0, 0, 1 }
             });
 
@@ -140,13 +160,15 @@ namespace ProjectAlgorithm.Transformations
             //                                        { 0, 0, 0, 0 }
             //});
 
-            var lines = compositeObject.GetLines();
+            var points = compositeObject.GetPoints();
+            var param = 0.1f;
 
-            foreach (var line in lines)
-            {
-                line.First = CentralPoints(line.First, distance);
-
-                line.Second = CentralPoints(line.Second, distance);
+            foreach (var point in points)
+            {    
+                point.Z = Math.Abs(point.Z) <= 0.1f ? param : point.Z;
+                point.X = point.X * distance / point.Z;
+                point.Y = point.Y * distance / point.Z;
+                point.Z = distance;
             }
 
             return compositeObject;
@@ -207,28 +229,30 @@ namespace ProjectAlgorithm.Transformations
 
         #endregion
 
-        #region Private
+        #region Hidden lines
 
-        private IPoint CentralPoints(IPoint point, float distance)
+        public ICompositeObject HideLines(ICompositeObject composite, IPoint viewPoint)
         {
-            var point1 = new Point();
-            var param = 0.1f;
-            point1.Z = Math.Abs(point.Z) <= 0.1f ? param : point.Z;
-            point1.X = point.X * distance / point1.Z;
-            point1.Y = point.Y * distance / point1.Z;
-            point1.Z = distance;
-
-            return point1;
+            return hiddenLines.HideLines(composite, viewPoint);
         }
+
+        #endregion
+
+        #region Private
 
         private ICompositeObject Transform(ICompositeObject compositeObject, DenseMatrix matrix)
         {
-            var lines = compositeObject.GetLines();
-            foreach (var line in lines)
+            var points = compositeObject.GetPoints();
+
+            foreach (var point in points)
             {
-                line.First = PointOutVector(Vector(line.First) * matrix);
-                line.Second = PointOutVector(Vector(line.Second) * matrix);
+                var p = PointOutVector(Vector(point) * matrix);
+
+                point.X = p.X;
+                point.Y = p.Y;
+                point.Z = p.Z;
             }
+
             return compositeObject;
         }
 

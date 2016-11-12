@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectAlgorithm\ProjectAlgorithm.csproj">
-      <Project>{3D4DFC4F-6D69-4334-84A6-CDAF47D15660}</Project>
+      <Project>{3d4dfc4f-6d69-4334-84a6-cdaf47d15660}</Project>
       <Name>ProjectAlgorithm</Name>
     </ProjectReference>
   </ItemGroup>

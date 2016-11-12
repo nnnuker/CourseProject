@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ProjectAlgorithm.Interfaces;
+using System.Drawing;
+using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
 {
@@ -26,6 +27,10 @@ namespace ProjectAlgorithm.Entities
             get { return second; }
             set { second = value; }
         }
+        
+        public Color Color { get; set; } 
+
+        public bool IsHidden { get; set; }
 
         #endregion
 
@@ -34,19 +39,48 @@ namespace ProjectAlgorithm.Entities
         public Line()
         {
             first = second = new Point();
+
+            Color = Color.Black;
         }
 
         public Line(IPoint first, IPoint second)
         {
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+
             this.first = first;
             this.second = second;
+
+            Color = Color.Black;
+        }
+
+        public Line(IPoint first, IPoint second, Color color, bool isHidden) : this(first, second)
+        {
+            this.Color = color;
+            IsHidden = isHidden;
         }
 
         #endregion
 
+        #region Public methods
+
         public object Clone()
         {
-            return new Line((IPoint)first.Clone(), (IPoint)second.Clone());
+            return new Line((IPoint) first.Clone(), (IPoint) second.Clone(), Color, IsHidden);
         }
+
+        //public override bool Equals(object obj)
+        //{
+        //    if (!(obj is Line))
+        //    {
+        //        return false;
+        //    }
+
+        //    var line = (Line) obj;
+
+        //    return first.Equals(line.first) && this.second.Equals(line.second);
+        //}
+
+        #endregion
     }
 }
