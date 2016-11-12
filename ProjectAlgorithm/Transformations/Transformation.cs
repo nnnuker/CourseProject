@@ -144,7 +144,7 @@ namespace ProjectAlgorithm.Transformations
             var projection = DenseMatrix.OfArray(new[,] {
                 { 1, 0, 0, 0},
                 { 0, 1, 0, 0},
-                { l*(float)Math.Cos(angleAlpha), l*(float)Math.Sin(angleAlpha), 0, 0},
+                { -l*(float)Math.Cos(angleAlpha), -l*(float)Math.Sin(angleAlpha), 0, 0},
                 { 0, 0, 0, 1 }
             });
 
