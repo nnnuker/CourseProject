@@ -86,8 +86,8 @@ namespace FormsPL
         {
             var factory = new EntitiesFactory();
 
-            var entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, Color.Blue, false);
-            var holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, Color.Red, true);
+            var entity = factory.CreateEntity((float)height.Value, (float)radius.Value, (float)radiusTop.Value, (int)number.Value, Color.Blue, true);
+            var holeEntity = factory.CreateEntity((float)height2.Value, (float)radius2.Value, (float)radius2Top.Value, (int)number2.Value, Color.Red, false);
 
             var compositeFactory = new CompositeFactory(factory, Color.Blue, Color.Blue);
 
