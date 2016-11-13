@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ProjectAlgorithm.Factories;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.Transformations;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
 
@@ -18,7 +19,7 @@ namespace FormsPL
 
         private ICompositeObject compositeObject;
         private ICompositeObject currentComposite;
-        private readonly Transformation transformation = new Transformation();
+        private readonly ICompositeTransform transformation = new Transformation();
         private float deltaX;
         private float deltaY;
         private bool flag;
@@ -311,7 +312,7 @@ namespace FormsPL
             ProjectionAction = () =>
             {
                 currentComposite = compositeObject.Clone() as ICompositeObject;
-                currentComposite = transformation.OrthogonalProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
+                currentComposite = transformation.AxonometricProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
 
                 InitializeAxisPen(false, false);
 
@@ -410,6 +411,8 @@ namespace FormsPL
 
         #endregion
 
+        #region Helping methods
+
         private void ChangeDelta()
         {
             deltaY = drawingBox.Height / 2.0f;
@@ -423,11 +426,6 @@ namespace FormsPL
             {
                 Draw(currentComposite, deltaX, deltaY, DrawAction);
             }
-        }
-
-        private void distance_ValueChanged(object sender, EventArgs e)
-        {
-            
         }
 
         private void hideLinesCheck_CheckedChanged(object sender, EventArgs e)
@@ -449,5 +447,7 @@ namespace FormsPL
             }
             Draw(currentComposite, 0, 0, DrawAction);
         }
+
+        #endregion
     }
 }

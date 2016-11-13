@@ -1021,7 +1021,6 @@
             0,
             0,
             0});
-            this.distance.ValueChanged += new System.EventHandler(this.distance_ValueChanged);
             // 
             // centralButton
             // 
