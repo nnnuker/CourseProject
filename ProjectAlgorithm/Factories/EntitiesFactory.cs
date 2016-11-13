@@ -72,8 +72,15 @@ namespace ProjectAlgorithm.Factories
             var faces = new List<IFace>();
 
             var count = top.Count();
+            var bottomCount = bottom.Count();
 
-            for (int i = 0; i < count - 1; i++)
+            if (count != bottomCount || bottomCount == 0)
+            {
+                faces.Add(new Face(top, color) {ReverseNormal = !reverseNormal});
+                return faces;
+            }
+
+            for (var i = 0; i < count - 1; i++)
             {
                 var list = new List<IPoint>
                 {
