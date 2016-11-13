@@ -27,11 +27,12 @@ namespace FormsPL
         private readonly Pen axisPenY = new Pen(Color.Coral);
         private readonly int axisPadding = 5;
         private Action<Graphics, Pen, Brush, IFace, float, float> DrawAction;
+        private Action ProjectionAction;
         private bool hideLines = true;
         private bool fillFaces = true;
         private IPoint viewPoint;
 
-        private Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
+        private readonly Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
         {
             {"xOy", new ProjectAlgorithm.Entities.Point(0, 0, 10000)},
             {"xOz", new ProjectAlgorithm.Entities.Point(0, 10000, 0)},
@@ -102,9 +103,13 @@ namespace FormsPL
         {
             InitializeComposite();
 
-            viewPoint = viewPoints["xOy"];
+            ProjectionAction = () =>
+            {
+                viewPoint = viewPoints["xOy"];
+                Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+            };
 
-            Draw(compositeObject, deltaX, deltaY, CoordinatesXY);
+            ProjectionAction();
         }
 
         private void Draw(ICompositeObject composite, float deltaX, float deltaY, Action<Graphics, Pen, Brush, IFace, float, float> DrawAction)
@@ -154,24 +159,18 @@ namespace FormsPL
         {
             var points = face.Points.Select(p => new PointF(p.X + deltaX, -p.Y + deltaY)).ToArray();
             DrawPolygons(graphics, pen, brush, points);
-
-            //graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Y + deltaY, line.Second.X + deltaX, -line.Second.Y + deltaY);
         }
 
         private void CoordinatesZY(Graphics graphics, Pen pen, Brush brush, IFace face, float deltaX, float deltaY)
         {
             var points = face.Points.Select(p => new PointF(p.Z + deltaX, -p.Y + deltaY)).ToArray();
             DrawPolygons(graphics, pen, brush, points);
-
-            //graphics.DrawLine(pen, line.First.Z + deltaX, -line.First.Y + deltaY, line.Second.Z + deltaX, -line.Second.Y + deltaY);
         }
 
         private void CoordinatesXZ(Graphics graphics, Pen pen, Brush brush, IFace face, float deltaX, float deltaY)
         {
             var points = face.Points.Select(p => new PointF(p.X + deltaX, p.Z + deltaY)).ToArray();
             DrawPolygons(graphics, pen, brush, points);
-
-            //graphics.DrawLine(pen, line.First.X + deltaX, -line.First.Z + deltaY, line.Second.X + deltaX, -line.Second.Z + deltaY);
         }
 
         private void DrawPolygons(Graphics graphics, Pen pen, Brush brush, PointF[] points)
@@ -196,7 +195,7 @@ namespace FormsPL
             compositeObject = Func(compositeObject, x, y, z);
             currentComposite = compositeObject.Clone() as ICompositeObject;
 
-            Draw(compositeObject, deltaX, deltaY, DrawAction);
+            ProjectionAction();
         }
 
         private void moveButton_Click(object sender, EventArgs e)
@@ -281,8 +280,8 @@ namespace FormsPL
             {
                 float y = (e.X - current.X) / 100.0f;
                 float x = (e.Y - current.Y) / 100.0f;
-                currentComposite = transformation.RotateObject(currentComposite, x, y, 0);
-                Draw(currentComposite, deltaX, deltaY, DrawAction);
+
+                TransformObject(x, y, 0, transformation.RotateObject);
             }
         }
 
@@ -309,88 +308,104 @@ namespace FormsPL
 
         private void projectionButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.OrthogonalProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
+            ProjectionAction = () =>
+            {
+                currentComposite = compositeObject.Clone() as ICompositeObject;
+                currentComposite = transformation.OrthogonalProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
 
-            InitializeAxisPen(false, false);
+                InitializeAxisPen(false, false);
 
-            viewPoint = viewPoints["xOy"];
+                viewPoint = viewPoints["xOy"];
 
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            };
+
+            ProjectionAction();
+        }
+
+        private void OrthoProjection(Func<ICompositeObject, ICompositeObject> Func, IPoint viewPoint, bool invertX, bool invertY, Action<Graphics, Pen, Brush, IFace, float, float> CoordAction)
+        {
+            ProjectionAction = () =>
+            {
+                currentComposite = compositeObject.Clone() as ICompositeObject;
+                currentComposite = Func(currentComposite);
+
+                InitializeAxisPen(invertX, invertY);
+
+                this.viewPoint = viewPoint;
+
+                Draw(currentComposite, deltaX, deltaY, CoordAction);
+            };
+
+            ProjectionAction();
         }
 
         private void xButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.ProjectionX(currentComposite);
-
-            InitializeAxisPen(false, false);
-
-            viewPoint = viewPoints["yOz"];
-
-            Draw(currentComposite, deltaX, deltaY, CoordinatesZY);
+            OrthoProjection(transformation.ProjectionX, viewPoints["yOz"], false, false, CoordinatesZY);
         }
 
         private void yButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.ProjectionY(currentComposite);
-
-            InitializeAxisPen(false, true);
-
-            viewPoint = viewPoints["xOz"];
-
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXZ);
+            OrthoProjection(transformation.ProjectionY, viewPoints["xOz"], false, true, CoordinatesXZ);
         }
 
         private void zButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.ProjectionZ(currentComposite);
-
-            InitializeAxisPen(false, false);
-
-            viewPoint = viewPoints["xOy"];
-
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            OrthoProjection(transformation.ProjectionZ, viewPoints["xOy"], false, false, CoordinatesXY);
         }
 
         private void obliqueButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
+            ProjectionAction = () =>
+            {
+                currentComposite = compositeObject.Clone() as ICompositeObject;
+                currentComposite = transformation.ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
 
-            InitializeAxisPen(false, false);
+                InitializeAxisPen(false, false);
 
-            viewPoint = viewPoints["xOy"];
+                viewPoint = viewPoints["xOy"];
 
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            };
+
+            ProjectionAction();
         }
 
         private void centralButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
+            ProjectionAction = () =>
+            {
+                currentComposite = compositeObject.Clone() as ICompositeObject;
+                currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
 
-            InitializeAxisPen(false, false);
+                InitializeAxisPen(false, false);
 
-            viewPoint = viewPoints["xOy"];
+                viewPoint = viewPoints["xOy"];
 
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            };
+
+            ProjectionAction();
         }
 
         private void viewButton_Click(object sender, EventArgs e)
         {
-            currentComposite = compositeObject.Clone() as ICompositeObject;
-            currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value,
-                (float)ro.Value, (float)distance.Value);
+            ProjectionAction = () =>
+            {
+                currentComposite = compositeObject.Clone() as ICompositeObject;
+                currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value,
+                    (float)ro.Value, (float)distance.Value);
 
-            InitializeAxisPen(false, false);
+                InitializeAxisPen(false, false);
 
-            viewPoint = ViewPointsHelper.GetViewPoint((float) angleFiView.Value, (float) angleTetaView.Value,
-                (float) ro.Value);
+                viewPoint = ViewPointsHelper.GetViewPoint((float)angleFiView.Value, (float)angleTetaView.Value,
+                    (float)ro.Value);
 
-            Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            };
+
+            ProjectionAction();
         }
 
         #endregion
