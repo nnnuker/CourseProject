@@ -33,9 +33,9 @@ namespace FormsPL
 
         private Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
         {
-            {"xOy", new ProjectAlgorithm.Entities.Point(0, 0, 5000)},
-            {"xOz", new ProjectAlgorithm.Entities.Point(0, 5000, 0)},
-            {"yOz", new ProjectAlgorithm.Entities.Point(5000, 0, 0)}
+            {"xOy", new ProjectAlgorithm.Entities.Point(0, 0, 10000)},
+            {"xOz", new ProjectAlgorithm.Entities.Point(0, 10000, 0)},
+            {"yOz", new ProjectAlgorithm.Entities.Point(10000, 0, 0)}
         };
 
         #endregion
@@ -50,6 +50,8 @@ namespace FormsPL
 
             DrawAction = CoordinatesXY;
             viewPoint = viewPoints["xOy"];
+
+            drawButton_Click(null, null);
         }
 
         private void InitializeAxisPen(bool invertX, bool invertY)
@@ -79,11 +81,7 @@ namespace FormsPL
             }
         }
 
-        #endregion
-
-        #region Drawing
-
-        private void drawButton_Click(object sender, EventArgs e)
+        private void InitializeComposite()
         {
             var factory = new EntitiesFactory();
 
@@ -94,6 +92,15 @@ namespace FormsPL
 
             compositeObject = compositeFactory.GetComposite(entity, holeEntity);
             currentComposite = compositeObject.Clone() as ICompositeObject;
+        }
+
+        #endregion
+
+        #region Drawing
+
+        private void drawButton_Click(object sender, EventArgs e)
+        {
+            InitializeComposite();
 
             viewPoint = viewPoints["xOy"];
 
@@ -411,12 +418,20 @@ namespace FormsPL
         private void hideLinesCheck_CheckedChanged(object sender, EventArgs e)
         {
             hideLines = hideLinesCheck.Checked;
+            if (!hideLines)
+            {
+                fillFacesCheck.Checked = false;
+            }
             Draw(currentComposite, 0, 0, DrawAction);
         }
 
         private void fillFacesCheck_CheckedChanged(object sender, EventArgs e)
         {
             fillFaces = fillFacesCheck.Checked;
+            if (fillFaces)
+            {
+                hideLinesCheck.Checked = true;
+            }
             Draw(currentComposite, 0, 0, DrawAction);
         }
     }
