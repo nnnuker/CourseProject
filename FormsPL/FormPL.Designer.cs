@@ -96,6 +96,7 @@
             this.drawingBox = new System.Windows.Forms.PictureBox();
             this.hideLinesCheck = new System.Windows.Forms.CheckBox();
             this.fillFacesCheck = new System.Windows.Forms.CheckBox();
+            this.drawLinesCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -1132,12 +1133,24 @@
             this.fillFacesCheck.UseVisualStyleBackColor = true;
             this.fillFacesCheck.CheckedChanged += new System.EventHandler(this.fillFacesCheck_CheckedChanged);
             // 
+            // drawLinesCheck
+            // 
+            this.drawLinesCheck.AutoSize = true;
+            this.drawLinesCheck.Location = new System.Drawing.Point(665, 519);
+            this.drawLinesCheck.Name = "drawLinesCheck";
+            this.drawLinesCheck.Size = new System.Drawing.Size(81, 17);
+            this.drawLinesCheck.TabIndex = 51;
+            this.drawLinesCheck.Text = "Draw lines?";
+            this.drawLinesCheck.UseVisualStyleBackColor = true;
+            this.drawLinesCheck.CheckedChanged += new System.EventHandler(this.drawLinesCheck_CheckedChanged);
+            // 
             // FormPL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(850, 545);
+            this.Controls.Add(this.drawLinesCheck);
             this.Controls.Add(this.fillFacesCheck);
             this.Controls.Add(this.hideLinesCheck);
             this.Controls.Add(this.drawingBox);
@@ -1252,6 +1265,7 @@
         private System.Windows.Forms.NumericUpDown ro;
         private System.Windows.Forms.CheckBox hideLinesCheck;
         private System.Windows.Forms.CheckBox fillFacesCheck;
+        private System.Windows.Forms.CheckBox drawLinesCheck;
     }
 }
 

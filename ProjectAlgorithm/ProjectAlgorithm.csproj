@@ -66,8 +66,12 @@
     <Compile Include="Interfaces\Entities\IFace.cs" />
     <Compile Include="Interfaces\Entities\ILine.cs" />
     <Compile Include="Interfaces\Entities\IPoint.cs" />
+    <Compile Include="Interfaces\Lights\ILight.cs" />
+    <Compile Include="Interfaces\Lights\ILightsColor.cs" />
     <Compile Include="Interfaces\Transformations\ICompositeTransform.cs" />
     <Compile Include="Interfaces\Transformations\IProjections.cs" />
+    <Compile Include="Lights\Light.cs" />
+    <Compile Include="Lights\LightsColor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\PyramidFactory.cs" />
     <Compile Include="Interfaces\Transformations\ITransformation.cs" />
@@ -79,6 +83,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

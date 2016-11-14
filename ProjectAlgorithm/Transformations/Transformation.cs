@@ -2,7 +2,9 @@
 using ProjectAlgorithm.HiddenLines;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.HiddenLines;
+using ProjectAlgorithm.Interfaces.Lights;
 using ProjectAlgorithm.Interfaces.Transformations;
+using ProjectAlgorithm.Lights;
 
 namespace ProjectAlgorithm.Transformations
 {
@@ -11,23 +13,27 @@ namespace ProjectAlgorithm.Transformations
         private readonly IHiddenLines hiddenLines;
         private readonly ITransformation transform;
         private readonly IProjections projections;
+        private readonly ILightsColor lightsColor;
 
         public Transformation()
         {
+            lightsColor = new LightsColor();
             projections = new Projections();
             transform = new Transform();
             hiddenLines = new RobertsAlgorithm();
         }
 
-        public Transformation(IHiddenLines hiddenLines, ITransformation transform, IProjections projections)
+        public Transformation(IHiddenLines hiddenLines, ITransformation transform, IProjections projections, ILightsColor lightsColor)
         {
             if (hiddenLines == null) throw new ArgumentNullException("hiddenLines");
             if (transform == null) throw new ArgumentNullException("transform");
             if (projections == null) throw new ArgumentNullException("projections");
+            if (lightsColor == null) throw new ArgumentNullException("lightsColor");
 
             this.hiddenLines = hiddenLines;
             this.transform = transform;
             this.projections = projections;
+            this.lightsColor = lightsColor;
         }
 
         #region Transformations
@@ -96,5 +102,10 @@ namespace ProjectAlgorithm.Transformations
         }
 
         #endregion
+
+        public ICompositeObject ChangeColors(ICompositeObject compositeObject, float kd, float ka, int iA, params ILight[] lights)
+        {
+            return lightsColor.ChangeColors(compositeObject, kd, ka, iA, lights);
+        }
     }
 }

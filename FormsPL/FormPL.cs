@@ -8,6 +8,7 @@ using ProjectAlgorithm.Factories;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.Transformations;
+using ProjectAlgorithm.Lights;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
 
@@ -32,6 +33,7 @@ namespace FormsPL
         private bool hideLines = true;
         private bool fillFaces = true;
         private IPoint viewPoint;
+        private bool drawLines = false;
 
         private readonly Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
         {
@@ -131,6 +133,7 @@ namespace FormsPL
             if (hideLines)
             {
                 composite = transformation.HideLines(composite, viewPoint);
+                composite = transformation.ChangeColors(composite, 1, 1, 50, new Light(new ProjectAlgorithm.Entities.Point(500, 100, 0), 50));
             }
 
             var pen = new Pen(Color.Aquamarine);
@@ -181,7 +184,7 @@ namespace FormsPL
                 graphics.FillPolygon(brush, points);
             }
 
-            if (pen != null)
+            if (drawLines)
             {
                 graphics.DrawPolygon(pen, points);
             }
@@ -448,6 +451,12 @@ namespace FormsPL
             Draw(currentComposite, 0, 0, DrawAction);
         }
 
+        private void drawLinesCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            drawLines = drawLinesCheck.Checked;
+
+            Draw(currentComposite, 0, 0, DrawAction);
+        }
         #endregion
     }
 }
