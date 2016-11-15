@@ -15,10 +15,17 @@ namespace ProjectAlgorithm.Lights
             {
                 foreach (var face in compositeEntity.Faces)
                 {
-                    int alpha = lights.Sum(light => GetAlpha(face, kd, ka, iA, light));
+                    var light = lights.Sum(l => GetAlpha(face, kd, ka, iA, l));
 
-                    var byteVal = alpha > 255?255: (byte)alpha;
-                    face.Color = Color.FromArgb(255, byteVal, byteVal, byteVal);
+                    light = light < 0 ? 0 : light > 255 ? 255 : light;
+
+                    var res = light/255;
+
+                    double r = face.Color.R * res;
+                    double g = face.Color.G * res;
+                    double b = face.Color.B * res;
+
+                    face.Color = Color.FromArgb(255, (byte)(int)r, (byte)(int)g, (byte)(int)b);
 
                     //face.Color = ColorFromAhsb(255, face.Color.GetHue(), face.Color.GetSaturation(), alpha/100);
                 }
@@ -28,7 +35,7 @@ namespace ProjectAlgorithm.Lights
         }
 
         //0<a<256 0<=h<=360 0<=s<=1 0<=b<=1  
-        public static Color ColorFromAhsb(int a, float h, float s, float b)
+        private static Color ColorFromAhsb(int a, float h, float s, float b)
         {
             if (0 == s)
             {
@@ -87,14 +94,14 @@ namespace ProjectAlgorithm.Lights
             }
         }
 
-        private int GetAlpha(IFace face, float kd, float ka, int iA, ILight light)
+        private double GetAlpha(IFace face, float kd, float ka, int iA, ILight light)
         {
             var a = face.Normal;
             var b = GetViewVector(light.LightPoint.Coordinates, face.Center);
 
             var cos = GetCos(a, b);
 
-            return (int)Math.Round(iA * ka + light.LightIntensity * kd * cos);
+            return iA * ka + light.LightIntensity * kd * cos;
         }
 
         private float GetCos(IEnumerable<float> a, IEnumerable<float> b)

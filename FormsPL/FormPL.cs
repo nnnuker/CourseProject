@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using ProjectAlgorithm.Factories;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.Lights;
 using ProjectAlgorithm.Interfaces.Transformations;
 using ProjectAlgorithm.Lights;
 using ProjectAlgorithm.Transformations;
@@ -25,8 +26,8 @@ namespace FormsPL
         private float deltaY;
         private bool flag;
         private Point current;
-        private readonly Pen axisPenX = new Pen(Color.Coral);
-        private readonly Pen axisPenY = new Pen(Color.Coral);
+        private readonly Pen axisPenX = new Pen(Color.Firebrick);
+        private readonly Pen axisPenY = new Pen(Color.Firebrick);
         private readonly int axisPadding = 5;
         private Action<Graphics, Pen, Brush, IFace, float, float> DrawAction;
         private Action ProjectionAction;
@@ -34,6 +35,8 @@ namespace FormsPL
         private bool fillFaces = true;
         private IPoint viewPoint;
         private bool drawLines = false;
+        private bool lightEnabled = false;
+        private List<ILight> lights = new List<ILight>();
 
         private readonly Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
         {
@@ -133,7 +136,12 @@ namespace FormsPL
             if (hideLines)
             {
                 composite = transformation.HideLines(composite, viewPoint);
-                composite = transformation.ChangeColors(composite, 1, 1, 50, new Light(new ProjectAlgorithm.Entities.Point(500, 100, 0), 50));
+            }
+
+            if (lightEnabled)
+            {
+                composite = transformation.ChangeColors(composite.Clone() as ICompositeObject, (float)kDLight.Value, 
+                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
             }
 
             var pen = new Pen(Color.Aquamarine);
@@ -458,5 +466,24 @@ namespace FormsPL
             Draw(currentComposite, 0, 0, DrawAction);
         }
         #endregion
+
+        private void lightButton_Click(object sender, EventArgs e)
+        {
+            lightEnabled = !lightEnabled;
+
+            xLight_ValueChanged(null, null);
+        }
+
+        private void xLight_ValueChanged(object sender, EventArgs e)
+        {
+            if (lightEnabled)
+            {
+                lights.Clear();
+
+                lights.Add(new Light(new ProjectAlgorithm.Entities.Point((int)xLight.Value, (int)yLight.Value, (int)zLight.Value), (int)intensityLight.Value));
+            }
+
+            Draw(currentComposite, 0, 0, DrawAction);
+        }
     }
 }

@@ -97,6 +97,22 @@
             this.hideLinesCheck = new System.Windows.Forms.CheckBox();
             this.fillFacesCheck = new System.Windows.Forms.CheckBox();
             this.drawLinesCheck = new System.Windows.Forms.CheckBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.xLight = new System.Windows.Forms.NumericUpDown();
+            this.yLight = new System.Windows.Forms.NumericUpDown();
+            this.zLight = new System.Windows.Forms.NumericUpDown();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.lightButton = new System.Windows.Forms.Button();
+            this.kALight = new System.Windows.Forms.NumericUpDown();
+            this.kDLight = new System.Windows.Forms.NumericUpDown();
+            this.intensityLight = new System.Windows.Forms.NumericUpDown();
+            this.intensityALight = new System.Windows.Forms.NumericUpDown();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -127,6 +143,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.drawingBox)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xLight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yLight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zLight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kALight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kDLight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intensityLight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intensityALight)).BeginInit();
             this.SuspendLayout();
             // 
             // moveButton
@@ -802,6 +826,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(665, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1135,6 +1160,7 @@
             // 
             // drawLinesCheck
             // 
+            this.drawLinesCheck.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.drawLinesCheck.AutoSize = true;
             this.drawLinesCheck.Location = new System.Drawing.Point(665, 519);
             this.drawLinesCheck.Name = "drawLinesCheck";
@@ -1143,6 +1169,262 @@
             this.drawLinesCheck.Text = "Draw lines?";
             this.drawLinesCheck.UseVisualStyleBackColor = true;
             this.drawLinesCheck.CheckedChanged += new System.EventHandler(this.drawLinesCheck_CheckedChanged);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.label32);
+            this.tabPage4.Controls.Add(this.label31);
+            this.tabPage4.Controls.Add(this.label30);
+            this.tabPage4.Controls.Add(this.label29);
+            this.tabPage4.Controls.Add(this.intensityALight);
+            this.tabPage4.Controls.Add(this.intensityLight);
+            this.tabPage4.Controls.Add(this.kDLight);
+            this.tabPage4.Controls.Add(this.kALight);
+            this.tabPage4.Controls.Add(this.lightButton);
+            this.tabPage4.Controls.Add(this.label28);
+            this.tabPage4.Controls.Add(this.label27);
+            this.tabPage4.Controls.Add(this.label26);
+            this.tabPage4.Controls.Add(this.zLight);
+            this.tabPage4.Controls.Add(this.yLight);
+            this.tabPage4.Controls.Add(this.xLight);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(165, 427);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Light";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // xLight
+            // 
+            this.xLight.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.xLight.Location = new System.Drawing.Point(52, 46);
+            this.xLight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.xLight.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.xLight.Name = "xLight";
+            this.xLight.Size = new System.Drawing.Size(76, 20);
+            this.xLight.TabIndex = 0;
+            this.xLight.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.xLight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // yLight
+            // 
+            this.yLight.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.yLight.Location = new System.Drawing.Point(52, 73);
+            this.yLight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.yLight.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.yLight.Name = "yLight";
+            this.yLight.Size = new System.Drawing.Size(76, 20);
+            this.yLight.TabIndex = 1;
+            this.yLight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // zLight
+            // 
+            this.zLight.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.zLight.Location = new System.Drawing.Point(52, 100);
+            this.zLight.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.zLight.Minimum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            -2147483648});
+            this.zLight.Name = "zLight";
+            this.zLight.Size = new System.Drawing.Size(76, 20);
+            this.zLight.TabIndex = 2;
+            this.zLight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(32, 48);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(14, 13);
+            this.label26.TabIndex = 3;
+            this.label26.Text = "X";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(32, 75);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(14, 13);
+            this.label27.TabIndex = 4;
+            this.label27.Text = "Y";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(32, 102);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(14, 13);
+            this.label28.TabIndex = 5;
+            this.label28.Text = "Z";
+            // 
+            // lightButton
+            // 
+            this.lightButton.Location = new System.Drawing.Point(53, 17);
+            this.lightButton.Name = "lightButton";
+            this.lightButton.Size = new System.Drawing.Size(75, 23);
+            this.lightButton.TabIndex = 6;
+            this.lightButton.Text = "On/off";
+            this.lightButton.UseVisualStyleBackColor = true;
+            this.lightButton.Click += new System.EventHandler(this.lightButton_Click);
+            // 
+            // kALight
+            // 
+            this.kALight.DecimalPlaces = 1;
+            this.kALight.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.kALight.Location = new System.Drawing.Point(53, 126);
+            this.kALight.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.kALight.Name = "kALight";
+            this.kALight.Size = new System.Drawing.Size(75, 20);
+            this.kALight.TabIndex = 7;
+            this.kALight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.kALight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // kDLight
+            // 
+            this.kDLight.DecimalPlaces = 1;
+            this.kDLight.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.kDLight.Location = new System.Drawing.Point(53, 152);
+            this.kDLight.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.kDLight.Name = "kDLight";
+            this.kDLight.Size = new System.Drawing.Size(75, 20);
+            this.kDLight.TabIndex = 8;
+            this.kDLight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.kDLight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // intensityLight
+            // 
+            this.intensityLight.Location = new System.Drawing.Point(53, 178);
+            this.intensityLight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.intensityLight.Name = "intensityLight";
+            this.intensityLight.Size = new System.Drawing.Size(75, 20);
+            this.intensityLight.TabIndex = 9;
+            this.intensityLight.Value = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.intensityLight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // intensityALight
+            // 
+            this.intensityALight.Location = new System.Drawing.Point(53, 204);
+            this.intensityALight.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.intensityALight.Name = "intensityALight";
+            this.intensityALight.Size = new System.Drawing.Size(75, 20);
+            this.intensityALight.TabIndex = 10;
+            this.intensityALight.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            this.intensityALight.ValueChanged += new System.EventHandler(this.xLight_ValueChanged);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(22, 128);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(25, 13);
+            this.label29.TabIndex = 11;
+            this.label29.Text = "k_a";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(22, 154);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(25, 13);
+            this.label30.TabIndex = 12;
+            this.label30.Text = "k_d";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(24, 180);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(22, 13);
+            this.label31.TabIndex = 13;
+            this.label31.Text = "I_L";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(24, 206);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(22, 13);
+            this.label32.TabIndex = 14;
+            this.label32.Text = "I_a";
             // 
             // FormPL
             // 
@@ -1190,6 +1472,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.lengthOblique)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.angleAlpha)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.drawingBox)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xLight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yLight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.zLight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kALight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kDLight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intensityLight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.intensityALight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1266,6 +1557,22 @@
         private System.Windows.Forms.CheckBox hideLinesCheck;
         private System.Windows.Forms.CheckBox fillFacesCheck;
         private System.Windows.Forms.CheckBox drawLinesCheck;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button lightButton;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.NumericUpDown zLight;
+        private System.Windows.Forms.NumericUpDown yLight;
+        private System.Windows.Forms.NumericUpDown xLight;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.NumericUpDown intensityALight;
+        private System.Windows.Forms.NumericUpDown intensityLight;
+        private System.Windows.Forms.NumericUpDown kDLight;
+        private System.Windows.Forms.NumericUpDown kALight;
     }
 }
 
