@@ -388,14 +388,33 @@ namespace FormsPL
         {
             ProjectionAction = () =>
             {
-                currentComposite = compositeObject.Clone() as ICompositeObject;
-                currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
-
+                viewPoint = viewPoints["xOy"];
                 InitializeAxisPen(false, false);
 
-                viewPoint = viewPoints["xOy"];
+                if (lightEnabled)
+                {
+                    currentComposite = compositeObject.Clone() as ICompositeObject;
+                    var composite = compositeObject.Clone() as ICompositeObject;
 
-                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                    composite = transformation.ChangeColors(composite, (float)kDLight.Value,
+                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+
+                    composite = transformation.CentralProjection(composite, (float)distance.Value);
+                    currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
+
+                    lightEnabled = false;
+
+                    Draw(composite, deltaX, deltaY, CoordinatesXY);
+
+                    lightEnabled = true;
+                }
+                else
+                {
+                    currentComposite = compositeObject.Clone() as ICompositeObject;
+                    currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
+
+                    Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                }
             };
 
             ProjectionAction();
@@ -405,16 +424,36 @@ namespace FormsPL
         {
             ProjectionAction = () =>
             {
-                currentComposite = compositeObject.Clone() as ICompositeObject;
-                currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value,
-                    (float)ro.Value, (float)distance.Value);
-
+                viewPoint = ViewPointsHelper.GetViewPoint((float)angleFiView.Value, (float)angleTetaView.Value,
+                        (float)ro.Value);
                 InitializeAxisPen(false, false);
 
-                viewPoint = ViewPointsHelper.GetViewPoint((float)angleFiView.Value, (float)angleTetaView.Value,
-                    (float)ro.Value);
+                if (lightEnabled)
+                {
+                    currentComposite = compositeObject.Clone() as ICompositeObject;
+                    var composite = compositeObject.Clone() as ICompositeObject;
 
-                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                    composite = transformation.ChangeColors(composite, (float)kDLight.Value,
+                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+
+                    composite = transformation.ViewTransformation(composite, (float)angleFiView.Value, (float)angleTetaView.Value + 90,
+                        (float)ro.Value, (float)distance.Value);
+
+                    currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value + 90,
+                        (float)ro.Value, (float)distance.Value);
+
+                    lightEnabled = false;
+                    Draw(composite, deltaX, deltaY, CoordinatesXY);
+                    lightEnabled = true;
+                }
+                else
+                {
+                    currentComposite = compositeObject.Clone() as ICompositeObject;
+                    currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value + 90,
+                        (float)ro.Value, (float)distance.Value);
+
+                    Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+                }
             };
 
             ProjectionAction();
@@ -483,7 +522,8 @@ namespace FormsPL
                 lights.Add(new Light(new ProjectAlgorithm.Entities.Point((int)xLight.Value, (int)yLight.Value, (int)zLight.Value), (int)intensityLight.Value));
             }
 
-            Draw(currentComposite, 0, 0, DrawAction);
+            ProjectionAction();
+            //Draw(currentComposite, 0, 0, DrawAction);
         }
     }
 }
