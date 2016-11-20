@@ -8,7 +8,7 @@ namespace ProjectAlgorithm.Transformations
 {
     public class Projections : IProjections
     {
-        public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro, float distance)
+        public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro)
         {
             var fiAngle = MathHelper.RadiansFromAngle(fi);
             var tetaAngle = MathHelper.RadiansFromAngle(teta);
@@ -53,21 +53,7 @@ namespace ProjectAlgorithm.Transformations
             });
             //var vMatrix = tMatrix * rzMatrix * rxMatrix * sMatrix;
 
-            return CentralProjection(compositeObject.Transform(vMatrix), distance);
-        }
-
-        public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
-        {
-            var angleAlpha = MathHelper.RadiansFromAngle(alpha);
-
-            var projection = DenseMatrix.OfArray(new[,] {
-                { 1, 0, 0, 0},
-                { 0, 1, 0, 0},
-                { -l*(float)Math.Cos(angleAlpha), -l*(float)Math.Sin(angleAlpha), 0, 0},
-                { 0, 0, 0, 1 }
-            });
-
-            return compositeObject.Transform(projection);
+            return compositeObject.Transform(vMatrix);
         }
 
         public ICompositeObject CentralProjection(ICompositeObject compositeObject, float distance)
@@ -84,6 +70,20 @@ namespace ProjectAlgorithm.Transformations
             }
 
             return compositeObject;
+        }
+
+        public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
+        {
+            var angleAlpha = MathHelper.RadiansFromAngle(alpha);
+
+            var projection = DenseMatrix.OfArray(new[,] {
+                { 1, 0, 0, 0},
+                { 0, 1, 0, 0},
+                { -l*(float)Math.Cos(angleAlpha), -l*(float)Math.Sin(angleAlpha), 0, 0},
+                { 0, 0, 0, 1 }
+            });
+
+            return compositeObject.Transform(projection);
         }
 
         public ICompositeObject AxonometricProjection(ICompositeObject compositeObject, float psi, float fi)

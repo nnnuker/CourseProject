@@ -4,7 +4,7 @@ namespace ProjectAlgorithm.Interfaces.Transformations
 {
     public interface IProjections
     {
-        ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro, float distance);
+        ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro);
 
         ICompositeObject CentralProjection(ICompositeObject compositeObject, float distance);
 

@@ -57,9 +57,9 @@ namespace ProjectAlgorithm.Transformations
 
         #region Projections
 
-        public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro, float distance)
+        public ICompositeObject ViewTransformation(ICompositeObject compositeObject, float fi, float teta, float ro)
         {
-            return projections.ViewTransformation(compositeObject, fi, teta, ro, distance);
+            return projections.ViewTransformation(compositeObject, fi, teta, ro);
         }
 
         public ICompositeObject ObliqueProjection(ICompositeObject compositeObject, float alpha, float l)
