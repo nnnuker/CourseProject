@@ -58,8 +58,8 @@ namespace ProjectAlgorithm.Factories
 
             for (var i = 0; i < n; i++)
             {
-                var z = (float)Math.Round(r * Math.Sin(grad * Math.PI / 180));
-                var x = (float)Math.Round(r * Math.Cos(grad * Math.PI / 180));
+                var z = (float)(r * Math.Sin(grad * Math.PI / 180));
+                var x = (float)(r * Math.Cos(grad * Math.PI / 180));
                 points.Add(new Point(x + deltaX, h + deltaY, z + deltaZ));
                 grad += alpha;
             }
