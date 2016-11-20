@@ -315,24 +315,6 @@ namespace FormsPL
 
         #region Projections
 
-        private void projectionButton_Click(object sender, EventArgs e)
-        {
-            ProjectionAction = () =>
-            {
-                viewPoint = viewPoints["xOy"];
-
-                currentComposite = HiddenAndLight(compositeObject);
-
-                currentComposite = transformation.AxonometricProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
-
-                InitializeAxisPen(false, false);
-
-                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
-            };
-
-            ProjectionAction();
-        }
-
         private void OrthoProjection(Func<ICompositeObject, ICompositeObject> Func, IPoint viewPoint, bool invertX, bool invertY, Action<Graphics, Pen, Brush, IFace, float, float> CoordAction)
         {
             ProjectionAction = () =>
@@ -366,15 +348,41 @@ namespace FormsPL
             OrthoProjection(transformation.ProjectionZ, viewPoints["xOy"], false, false, CoordinatesXY);
         }
 
+        private void projectionButton_Click(object sender, EventArgs e)
+        {
+            ProjectionAction = () =>
+            {
+                viewPoint = viewPoints["xOy"];
+
+                //currentComposite = HiddenAndLight(compositeObject);
+                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+
+                currentComposite = transformation.AxonometricProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
+
+                currentComposite = transformation.HideLines(currentComposite, viewPoint);
+
+                InitializeAxisPen(false, false);
+
+                Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+            };
+
+            ProjectionAction();
+        }
+
         private void obliqueButton_Click(object sender, EventArgs e)
         {
             ProjectionAction = () =>
             {
                 viewPoint = viewPoints["xOy"];
 
-                currentComposite = HiddenAndLight(compositeObject);
+                //currentComposite = HiddenAndLight(compositeObject);
+                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
 
                 currentComposite = transformation.ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
+
+                currentComposite = transformation.HideLines(currentComposite, viewPoint);
 
                 InitializeAxisPen(false, false);
 
