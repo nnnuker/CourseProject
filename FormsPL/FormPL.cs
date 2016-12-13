@@ -4,12 +4,14 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using ProjectAlgorithm.Entities;
 using ProjectAlgorithm.Factories;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.Lights;
 using ProjectAlgorithm.Interfaces.Transformations;
 using ProjectAlgorithm.Lights;
+using ProjectAlgorithm.Shadows;
 using ProjectAlgorithm.Transformations;
 using Point = System.Drawing.Point;
 
@@ -37,6 +39,7 @@ namespace FormsPL
         private bool drawLines = false;
         private bool lightEnabled = false;
         private List<ILight> lights = new List<ILight>();
+        private bool shadowEnabled = false;
 
         private readonly Dictionary<string, IPoint> viewPoints = new Dictionary<string, IPoint>
         {
@@ -118,23 +121,42 @@ namespace FormsPL
             {
                 viewPoint = viewPoints["xOy"];
 
-                currentComposite = HiddenAndLight(compositeObject);
+                currentComposite = HiddenAndLight(compositeObject, hideLines, lightEnabled);
+
+                Shadow();
 
                 Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+
+                redraw = true;
             };
 
             ProjectionAction();
         }
 
+        Bitmap bitmap;
+        Graphics graphics;
+        bool redraw = true;
+
         private void Draw(ICompositeObject composite, float deltaX, float deltaY, Action<Graphics, Pen, Brush, IFace, float, float> DrawAction)
         {
             this.DrawAction = DrawAction;
 
-            var bitmap = new Bitmap(drawingBox.Width, drawingBox.Height);
-            var graphics = Graphics.FromImage(bitmap);
-            drawingBox.Image = bitmap;
+            if (redraw)
+            {
+                bitmap = new Bitmap(drawingBox.Width, drawingBox.Height);
+                graphics = Graphics.FromImage(bitmap);
+                drawingBox.Image = bitmap;
+            }
 
             ChangeDelta();
+
+            //PixelDrawer.DrawXY(new Face(new List<IPoint>()
+            //{
+            //    new ProjectAlgorithm.Entities.Point(0, 10, 0),
+            //    new ProjectAlgorithm.Entities.Point(10, 20, 0),
+            //    new ProjectAlgorithm.Entities.Point(12, 20, 0),
+            //    new ProjectAlgorithm.Entities.Point(5, 10, 0)
+            //}), graphics, Color.Blue, this.deltaX, this.deltaY);
 
             DrawAxis(graphics, this.deltaX, this.deltaY);
 
@@ -150,8 +172,10 @@ namespace FormsPL
                 {
                     if (!face.IsHidden || !hideLines)
                     {
-                        brush.Color = face.Color;
-                        DrawAction(graphics, pen, brush, face, this.deltaX, this.deltaY);
+                        PixelDrawer.DrawXY(face, graphics, this.deltaX, this.deltaY);
+
+                        //brush.Color = face.Color;
+                        //DrawAction(graphics, pen, brush, face, this.deltaX, this.deltaY);
                     }
                 }
             }
@@ -205,6 +229,8 @@ namespace FormsPL
             currentComposite = compositeObject.Clone() as ICompositeObject;
 
             ProjectionAction();
+
+            shadowCheck_CheckedChanged(null, null);
         }
 
         private void moveButton_Click(object sender, EventArgs e)
@@ -321,13 +347,17 @@ namespace FormsPL
             {
                 this.viewPoint = viewPoint;
 
-                currentComposite = HiddenAndLight(compositeObject);
+                currentComposite = HiddenAndLight(compositeObject, true, true);
 
                 currentComposite = Func(currentComposite);
 
                 InitializeAxisPen(invertX, invertY);
 
+                Shadow();
+
                 Draw(currentComposite, deltaX, deltaY, CoordAction);
+
+                redraw = true;
             };
 
             ProjectionAction();
@@ -355,16 +385,22 @@ namespace FormsPL
                 viewPoint = viewPoints["xOy"];
 
                 //currentComposite = HiddenAndLight(compositeObject);
-                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
-                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+                currentComposite = HiddenAndLight(compositeObject, false, true);
+                //currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                //    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
 
                 currentComposite = transformation.AxonometricProjection(currentComposite, (float)anglePsi.Value, (float)angleFi.Value);
 
-                currentComposite = transformation.HideLines(currentComposite, viewPoint);
+                currentComposite = HiddenAndLight(currentComposite, true, false);
+                //currentComposite = transformation.HideLines(currentComposite, viewPoint);
 
                 InitializeAxisPen(false, false);
 
+                Shadow();
+
                 Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+
+                redraw = true;
             };
 
             ProjectionAction();
@@ -377,16 +413,22 @@ namespace FormsPL
                 viewPoint = viewPoints["xOy"];
 
                 //currentComposite = HiddenAndLight(compositeObject);
-                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
-                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+                currentComposite = HiddenAndLight(compositeObject, false, true);
+                //currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                //    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
 
                 currentComposite = transformation.ObliqueProjection(currentComposite, (float)angleAlpha.Value, (float)lengthOblique.Value);
 
-                currentComposite = transformation.HideLines(currentComposite, viewPoint);
+                currentComposite = HiddenAndLight(currentComposite, true, false);
+                //currentComposite = transformation.HideLines(currentComposite, viewPoint);
 
                 InitializeAxisPen(false, false);
 
+                Shadow();
+
                 Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+
+                redraw = true;
             };
 
             ProjectionAction();
@@ -400,14 +442,20 @@ namespace FormsPL
                 InitializeAxisPen(false, false);
 
                 //currentComposite = HiddenAndLight(compositeObject);
-                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
-                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+                currentComposite = HiddenAndLight(compositeObject, false, true);
+                //currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                //    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
 
                 currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
 
-                currentComposite = transformation.HideLines(currentComposite, viewPoint);
+                currentComposite = HiddenAndLight(currentComposite, true, false);
+                //currentComposite = transformation.HideLines(currentComposite, viewPoint);
+
+                Shadow();
 
                 Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+
+                redraw = true;
             };
 
             ProjectionAction();
@@ -421,34 +469,40 @@ namespace FormsPL
                         (float)ro.Value);
                 InitializeAxisPen(false, false);
 
-                currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
-                    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
+                currentComposite = HiddenAndLight(compositeObject, false, true);
+                //currentComposite = transformation.ChangeColors(compositeObject.Clone() as ICompositeObject, (float)kDLight.Value,
+                //    (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
 
                 currentComposite = transformation.ViewTransformation(currentComposite, (float)angleFiView.Value, (float)angleTetaView.Value + 90,
                     (float)ro.Value);
 
                 //currentComposite = HiddenAndLight(currentComposite);
 
-                currentComposite = transformation.CentralProjection(currentComposite, (float) distance.Value);
+                currentComposite = transformation.CentralProjection(currentComposite, (float)distance.Value);
 
-                currentComposite = transformation.HideLines(currentComposite, viewPoint);
+                currentComposite = HiddenAndLight(currentComposite, true, false);
+                //currentComposite = transformation.HideLines(currentComposite, viewPoint);
+
+                Shadow();
 
                 Draw(currentComposite, deltaX, deltaY, CoordinatesXY);
+
+                redraw = true;
             };
 
             ProjectionAction();
         }
 
-        private ICompositeObject HiddenAndLight(ICompositeObject composite)
+        private ICompositeObject HiddenAndLight(ICompositeObject composite, bool hide, bool light)
         {
             var compositeObj = composite.Clone() as ICompositeObject;
 
-            if (hideLines)
+            if (hide)
             {
                 compositeObj = transformation.HideLines(compositeObj, viewPoint);
             }
 
-            if (lightEnabled)
+            if (light)
             {
                 compositeObj = transformation.ChangeColors(compositeObj, (float)kDLight.Value,
                     (float)kALight.Value, (int)intensityALight.Value, lights.ToArray());
@@ -459,6 +513,20 @@ namespace FormsPL
         #endregion
 
         #region Helping methods
+
+        private void Shadow()
+        {
+            //if (shadowCheck.Checked)
+            //{
+            //    var shadow = new PerspectiveShadow();
+
+            //    var composite = shadow.GetShadow(currentComposite, lights.First());
+
+            //    Draw(composite, 0, 0, CoordinatesXY);
+
+            //    redraw = false;
+            //}
+        }
 
         private void ChangeDelta()
         {
@@ -519,9 +587,16 @@ namespace FormsPL
             }
 
             ProjectionAction();
-            //Draw(currentComposite, 0, 0, DrawAction);
         }
 
         #endregion
+
+        private void shadowCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (shadowCheck.Checked)
+            {
+                ProjectionAction();
+            }
+        }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="FormPL.Designer.cs">
       <DependentUpon>FormPL.cs</DependentUpon>
     </Compile>
+    <Compile Include="PixelDrawer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormPL.resx">

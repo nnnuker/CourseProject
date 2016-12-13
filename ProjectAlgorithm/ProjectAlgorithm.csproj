@@ -68,13 +68,17 @@
     <Compile Include="Interfaces\Entities\IPoint.cs" />
     <Compile Include="Interfaces\Lights\ILight.cs" />
     <Compile Include="Interfaces\Lights\ILightsColor.cs" />
+    <Compile Include="Interfaces\Shadows\IShadow.cs" />
     <Compile Include="Interfaces\Transformations\ICompositeTransform.cs" />
     <Compile Include="Interfaces\Transformations\IProjections.cs" />
     <Compile Include="Lights\Light.cs" />
     <Compile Include="Lights\LightsColor.cs" />
+    <Compile Include="Lights\ReflectedLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factories\PyramidFactory.cs" />
     <Compile Include="Interfaces\Transformations\ITransformation.cs" />
+    <Compile Include="Shadows\PerspectiveShadow.cs" />
+    <Compile Include="Shadows\Shadow.cs" />
     <Compile Include="Transformations\Projections.cs" />
     <Compile Include="Transformations\Transform.cs" />
     <Compile Include="Transformations\Transformation.cs" />

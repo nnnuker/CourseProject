@@ -113,6 +113,7 @@
             this.hideLinesCheck = new System.Windows.Forms.CheckBox();
             this.fillFacesCheck = new System.Windows.Forms.CheckBox();
             this.drawLinesCheck = new System.Windows.Forms.CheckBox();
+            this.shadowCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radius)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radiusTop)).BeginInit();
@@ -1117,6 +1118,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.shadowCheck);
             this.tabPage4.Controls.Add(this.label32);
             this.tabPage4.Controls.Add(this.label31);
             this.tabPage4.Controls.Add(this.label30);
@@ -1426,6 +1428,17 @@
             this.drawLinesCheck.UseVisualStyleBackColor = true;
             this.drawLinesCheck.CheckedChanged += new System.EventHandler(this.drawLinesCheck_CheckedChanged);
             // 
+            // shadowCheck
+            // 
+            this.shadowCheck.AutoSize = true;
+            this.shadowCheck.Location = new System.Drawing.Point(27, 230);
+            this.shadowCheck.Name = "shadowCheck";
+            this.shadowCheck.Size = new System.Drawing.Size(101, 17);
+            this.shadowCheck.TabIndex = 15;
+            this.shadowCheck.Text = "Shadow On/Off";
+            this.shadowCheck.UseVisualStyleBackColor = true;
+            this.shadowCheck.CheckedChanged += new System.EventHandler(this.shadowCheck_CheckedChanged);
+            // 
             // FormPL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1573,6 +1586,7 @@
         private System.Windows.Forms.NumericUpDown intensityLight;
         private System.Windows.Forms.NumericUpDown kDLight;
         private System.Windows.Forms.NumericUpDown kALight;
+        private System.Windows.Forms.CheckBox shadowCheck;
     }
 }
 

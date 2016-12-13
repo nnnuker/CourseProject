@@ -7,41 +7,33 @@ using ProjectAlgorithm.Interfaces.Lights;
 
 namespace ProjectAlgorithm.Lights
 {
-    public class LightsColor : ILightsColor
+    public class ReflectedLight
     {
-        public ICompositeObject ChangeColors(ICompositeObject compositeObject, float kd, float ka, int iA, params ILight[] lights)
+        public Color GetColor(IPoint point, Color basic, IPoint viewPoint, ILight lightPoint, IEnumerable<float> normal, float kd, float kA, float ks, int iA, int n)
         {
-            foreach (var compositeEntity in compositeObject.Entities)
-            {
-                foreach (var face in compositeEntity.Faces)
-                {
-                    var light = lights.Sum(l => GetAlpha(face, kd, ka, iA, l));
+            var light = GetAlpha(point, viewPoint, normal, kd, kA, ks, iA, n, lightPoint);
 
-                    light = light < 0 ? 0 : light > 255 ? 255 : light;
+            light = light < 0 ? 0 : light > 255 ? 255 : light;
 
-                    var res = light/255;
+            var res = light / 255;
 
-                    double r = face.Color.R * res;
-                    double g = face.Color.G * res;
-                    double b = face.Color.B * res;
+            double r = basic.R * res;
+            double g = basic.G * res;
+            double b = basic.B * res;
 
-                    face.Color = Color.FromArgb(255, (byte)(int)r, (byte)(int)g, (byte)(int)b);
-
-                    //face.Color = ColorFromAhsb(255, face.Color.GetHue(), face.Color.GetSaturation(), alpha/100);
-                }
-            }
-
-            return compositeObject;
+            return Color.FromArgb(255, (byte)(int)r, (byte)(int)g, (byte)(int)b);
         }
 
-        private double GetAlpha(IFace face, float kd, float ka, int iA, ILight light)
+        private double GetAlpha(IPoint point, IPoint viewPoint, IEnumerable<float> normal, float kd, float ka, float ks, int iA, int n, ILight light)
         {
-            var a = face.Normal;
-            var b = GetViewVector(light.LightPoint.Coordinates, face.Center);
+            var a = normal;
+            var b = GetViewVector(light.LightPoint.Coordinates, point.Coordinates);
+            var c = GetViewVector(viewPoint.Coordinates, point.Coordinates);
 
-            var cos = GetCos(a, b);
+            var cosTheta = GetCos(a, b);
+            var cosAlpha = GetCos(b, c);
 
-            return iA * ka + light.LightIntensity * kd * cos;
+            return iA * ka + light.LightIntensity * (kd * cosTheta + ks * Math.Pow(cosAlpha, n));
         }
 
         private float GetCos(IEnumerable<float> a, IEnumerable<float> b)
