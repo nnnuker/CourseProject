@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using ProjectAlgorithm.Interfaces.Entities;
+using ProjectAlgorithm.Interfaces.Lights;
 using ProjectAlgorithm.Lights;
+using Point = ProjectAlgorithm.Entities.Point;
 
 namespace FormsPL
 {
     public static class PixelDrawer
     {
-        public static void DrawXY(IFace face, Graphics graphics, float deltaX, float deltaY)
+        public static void DrawXY(IFace face, Graphics graphics, float deltaX, float deltaY, ILight light, IPoint viewPoint)
         {
             var points = GetFacePoints(face);
 
@@ -19,29 +19,30 @@ namespace FormsPL
 
             foreach (var point in points)
             {
-                var color = lightDrawer.GetColor()
+                var color = lightDrawer.GetColor(point, face.Color, viewPoint,
+                    light, face.Normal, 1, 1, 1, 20, 500);
 
-                graphics.DrawRectangle(new Pen(color), point.X + deltaX, point.Y + deltaY, 1, 1);
+                graphics.DrawRectangle(new Pen(color), point.X + deltaX, -point.Y + deltaY, 1, 1);
             }
         }
 
         private static List<Point> GetFacePoints(IFace face)
         {
-            var linesPoints = new List<Point>();
+            var linesPoints = new List<IPoint>();
 
             foreach (var faceLine in face.Lines)
             {
-                linesPoints.AddRange(BresenhamLine(faceLine.First.X, faceLine.First.Y, faceLine.Second.X, faceLine.Second.Y).Select(Point.Round));
+                linesPoints.AddRange(BresenhamLine(faceLine.First.X, faceLine.First.Y, faceLine.Second.X, faceLine.Second.Y, face.Center.ElementAt(2)));
             }
 
-            var minX = linesPoints.Min(p => p.X);
-            var minY = linesPoints.Min(p => p.Y);
-            var maxX = linesPoints.Max(p => p.X);
-            var maxY = linesPoints.Max(p => p.Y);
+            var minX = (int)linesPoints.Min(p => p.X);
+            var minY = (int)linesPoints.Min(p => p.Y);
+            var maxX = (int)linesPoints.Max(p => p.X);
+            var maxY = (int)linesPoints.Max(p => p.Y);
             
-            var bitmap = new int[Math.Abs(maxX) + Math.Abs(minX) + 1, Math.Abs(maxY) + Math.Abs(minY) + 1];
+            var bitmap = new float[Math.Abs(maxX) + Math.Abs(minX) + 1, Math.Abs(maxY) + Math.Abs(minY) + 1];
 
-            linesPoints.ForEach(p => bitmap[p.X + Math.Abs(minX), p.Y + Math.Abs(minY)] = 1);
+            linesPoints.ForEach(p => bitmap[(int)p.X + Math.Abs(minX), (int)p.Y + Math.Abs(minY)] = 1);
 
             var result = new List<Point>();
             
@@ -59,7 +60,7 @@ namespace FormsPL
                             break;
                         }
 
-                        result.Add(new Point(i - Math.Abs(minX), j - Math.Abs(minY)));
+                        result.Add(new Point(i - Math.Abs(minX), j - Math.Abs(minY), face.Center.ElementAt(2)));
                         inFlag = true;
                     }
                     else
@@ -81,7 +82,7 @@ namespace FormsPL
                         if (yes)
                         {
                             bitmap[i, j] = 1;
-                            result.Add(new Point(i - Math.Abs(minX), j - Math.Abs(minY)));
+                            result.Add(new Point(i - Math.Abs(minX), j - Math.Abs(minY), face.Center.ElementAt(2)));
                         }
                         
                     }
@@ -96,9 +97,9 @@ namespace FormsPL
             return (x > 0) ? 1 : (x < 0) ? -1 : 0;
         }
 
-        private static List<PointF> BresenhamLine(float xstart, float ystart, float xend, float yend)
+        private static List<IPoint> BresenhamLine(float xstart, float ystart, float xend, float yend, float z)
         {
-            var list = new List<PointF>();
+            var list = new List<IPoint>();
 
             float pdx, pdy, es, el;
 
@@ -130,7 +131,7 @@ namespace FormsPL
             var y = ystart;
             var err = el / 2;
 
-            list.Add(new PointF(x, y));
+            list.Add(new Point {X = x, Y = y, Z = z});
 
             for (int t = 0; t < el; t++)
             {
@@ -147,7 +148,7 @@ namespace FormsPL
                     y += pdy;
                 }
 
-                list.Add(new PointF(x, y));
+                list.Add(new Point { X = x, Y = y, Z = z });
             }
 
             return list;

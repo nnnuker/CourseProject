@@ -67,9 +67,9 @@ namespace ProjectAlgorithm.Factories
             return points;
         }
 
-        private List<IFace> GetFaces(IEnumerable<IPoint> top, IEnumerable<IPoint> bottom, Color color, bool reverseNormal)
+        private List<Face> GetFaces(IEnumerable<IPoint> top, IEnumerable<IPoint> bottom, Color color, bool reverseNormal)
         {
-            var faces = new List<IFace>();
+            var faces = new List<Face>();
 
             var count = top.Count();
             var bottomCount = bottom.Count();

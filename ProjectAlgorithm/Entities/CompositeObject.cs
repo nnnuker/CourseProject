@@ -70,9 +70,7 @@ namespace ProjectAlgorithm.Entities
             }
 
             points = points.Distinct().ToList();
-
-            //OnChangeMethod(new UpdateObjectEventArgs(lines));
-
+            
             return points;
         }
 
@@ -89,9 +87,7 @@ namespace ProjectAlgorithm.Entities
             }
 
             lines = lines.Distinct().ToList();
-
-            //OnChangeMethod(new UpdateObjectEventArgs(lines));
-
+            
             return lines;
         }
 

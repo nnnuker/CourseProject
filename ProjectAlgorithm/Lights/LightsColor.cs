@@ -26,8 +26,6 @@ namespace ProjectAlgorithm.Lights
                     double b = face.Color.B * res;
 
                     face.Color = Color.FromArgb(255, (byte)(int)r, (byte)(int)g, (byte)(int)b);
-
-                    //face.Color = ColorFromAhsb(255, face.Color.GetHue(), face.Color.GetSaturation(), alpha/100);
                 }
             }
 

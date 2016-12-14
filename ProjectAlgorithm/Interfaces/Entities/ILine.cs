@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ProjectAlgorithm.Interfaces.HiddenLines;
 
 namespace ProjectAlgorithm.Interfaces.Entities

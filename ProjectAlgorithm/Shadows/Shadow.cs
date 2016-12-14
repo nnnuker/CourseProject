@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Single;
+using ProjectAlgorithm.Entities;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
 using ProjectAlgorithm.Interfaces.Lights;
@@ -15,7 +17,21 @@ namespace ProjectAlgorithm.Shadows
         {
             var composite = compositeObject.Clone() as ICompositeObject;
 
-            foreach (var face in composite.GetFaces())
+            var withoutHole = composite.Entities.Skip(1);
+
+            var list = new List<Face>();
+
+            foreach (var entity in withoutHole)
+            {
+                list.AddRange(entity.Faces);
+            }
+
+            foreach (var face in composite.Entities.First().Faces)
+            {
+                face.IsHidden = true;
+            }
+
+            foreach (Face face in list)
             {
                 face.Color = GetGrayColor(face.Color);
                 face.IsHidden = false;
@@ -39,7 +55,7 @@ namespace ProjectAlgorithm.Shadows
         {
             var array = new int[] {color.R, color.G, color.B};
             var max = array.Min();
-            return Color.FromArgb(128, max, max, max);
+            return Color.FromArgb(70, max, max, max);
         }
     }
 }

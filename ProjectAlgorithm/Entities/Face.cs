@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Threading;
 using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
@@ -76,19 +74,7 @@ namespace ProjectAlgorithm.Entities
                 ReverseNormal = this.ReverseNormal
             };
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is Face))
-        //    {
-        //        return false;
-        //    }
-
-        //    var face = (Face)obj;
-
-        //    return this.points.SequenceEqual(face.points);
-        //}
-
+        
         #endregion
 
         #region Private methods

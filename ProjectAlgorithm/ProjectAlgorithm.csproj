@@ -75,7 +75,6 @@
     <Compile Include="Lights\LightsColor.cs" />
     <Compile Include="Lights\ReflectedLight.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Factories\PyramidFactory.cs" />
     <Compile Include="Interfaces\Transformations\ITransformation.cs" />
     <Compile Include="Shadows\PerspectiveShadow.cs" />
     <Compile Include="Shadows\Shadow.cs" />

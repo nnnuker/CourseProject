@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ProjectAlgorithm.Interfaces.Entities;
 
 namespace ProjectAlgorithm.Entities
@@ -62,19 +61,7 @@ namespace ProjectAlgorithm.Entities
         {
             return new Point(x, y, z);
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is Point))
-        //    {
-        //        return false;
-        //    }
-
-        //    var point = (Point)obj;
-
-        //    return x.Equals(point.x) && y.Equals(y) && z.Equals(z);
-        //}
-
+        
         #endregion
     }
 }

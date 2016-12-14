@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra.Single;
 using ProjectAlgorithm.Infrastructure;
 using ProjectAlgorithm.Interfaces.Entities;
@@ -31,7 +27,7 @@ namespace ProjectAlgorithm.Shadows
             var matrix = DenseMatrix.OfArray(new[,] {
                                                     { z, 0, 0, 0},
                                                     { 0, z, 0, 0},
-                                                    { -x, -y, 0, 1},
+                                                    { x, y, 0, 1},
                                                     { 0, 0, 0, z}
                                                   });
 

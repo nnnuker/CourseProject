@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using ProjectAlgorithm.Interfaces.Entities;
 
@@ -68,19 +67,7 @@ namespace ProjectAlgorithm.Entities
         {
             return new Line((IPoint) first.Clone(), (IPoint) second.Clone(), Color, IsHidden);
         }
-
-        //public override bool Equals(object obj)
-        //{
-        //    if (!(obj is Line))
-        //    {
-        //        return false;
-        //    }
-
-        //    var line = (Line) obj;
-
-        //    return first.Equals(line.first) && this.second.Equals(line.second);
-        //}
-
+        
         #endregion
     }
 }

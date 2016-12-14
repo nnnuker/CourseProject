@@ -11,17 +11,31 @@ namespace ProjectAlgorithm.Lights
     {
         public Color GetColor(IPoint point, Color basic, IPoint viewPoint, ILight lightPoint, IEnumerable<float> normal, float kd, float kA, float ks, int iA, int n)
         {
+            if (lightPoint == null)
+            {
+                return basic;
+            }
+
             var light = GetAlpha(point, viewPoint, normal, kd, kA, ks, iA, n, lightPoint);
 
             light = light < 0 ? 0 : light > 255 ? 255 : light;
 
             var res = light / 255;
 
-            double r = basic.R * res;
-            double g = basic.G * res;
-            double b = basic.B * res;
+            double r = (basic.R + 255) * res;
+            double g = (basic.G + 255) * res;
+            double b = (basic.B + 255) * res;
+            
+            r = Cast(r);
+            g = Cast(g);
+            b = Cast(b);
 
             return Color.FromArgb(255, (byte)(int)r, (byte)(int)g, (byte)(int)b);
+        }
+
+        private double Cast(double val)
+        {
+            return val < 0 ? 0 : val > 255 ? 255 : val;
         }
 
         private double GetAlpha(IPoint point, IPoint viewPoint, IEnumerable<float> normal, float kd, float ka, float ks, int iA, int n, ILight light)
